@@ -1,0 +1,2264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HF Vertical Antenna Electrical Optimization: 17m, 40m &amp; 80m Theory Summary</title>
+  <style>
+    /* =========================================================================
+       Easy to read charts 16:9
+       Zero external dependencies — 100% offline-ready
+       ========================================================================= */
+    :root {
+      --bg-page: #f1f5f9;
+      --bg-card: #ffffff;
+      --bg-subtle: #f8fafc;
+      --border-light: #e2e8f0;
+      --border-mid: #cbd5e1;
+
+      --navy: #0f172a;
+      --navy-mid: #1e293b;
+      --slate: #334155;
+      --muted: #64748b;
+
+      --crimson: #dc2626;
+      --crimson-dark: #991b1b;
+      --crimson-soft: #fef2f2;
+      --crimson-border: #fecaca;
+
+      --teal: #0d9488;
+      --teal-dark: #0f766e;
+      --teal-soft: #f0fdfa;
+      --teal-border: #99f6e4;
+
+      --blue: #2563eb;
+      --blue-dark: #1d4ed8;
+      --blue-soft: #eff6ff;
+      --blue-border: #bfdbfe;
+
+      --amber: #d97706;
+      --amber-dark: #92400e;
+      --amber-soft: #fffbeb;
+      --amber-border: #fde68a;
+
+      --emerald: #059669;
+      --emerald-dark: #065f46;
+      --emerald-soft: #ecfdf5;
+      --emerald-border: #a7f3d0;
+
+      --font-sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+
+      --radius-lg: 14px;
+      --radius-md: 10px;
+      --radius-sm: 7px;
+      --shadow-card: 0 1px 3px rgba(15, 23, 42, 0.07), 0 4px 14px rgba(15, 23, 42, 0.04);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      min-height: 100%;
+      background-color: var(--bg-page);
+      color: var(--navy);
+      font-family: var(--font-sans);
+      font-size: 15px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* =========================================================================
+       HEADER & 5-TAB NAVIGATION BAR
+       ========================================================================= */
+    .top-chrome {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: 0 3px 14px rgba(15, 23, 42, 0.14);
+    }
+
+    .app-header {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: #f8fafc;
+      padding: 12px 22px;
+      border-bottom: 3px solid var(--crimson);
+    }
+
+    .header-inner {
+      max-width: 1680px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px 18px;
+    }
+
+    .title-group {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .app-title {
+      font-size: clamp(1.05rem, 1.55vw, 1.38rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 9px;
+    }
+
+    .title-pill {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: var(--crimson);
+      color: #ffffff;
+    }
+
+    .title-pill.teal {
+      background: var(--teal);
+    }
+
+    .app-sub {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: #cbd5e1;
+    }
+
+    .nav-strip {
+      background: #ffffff;
+      border-bottom: 1px solid var(--border-light);
+      padding: 8px 22px;
+    }
+
+    .nav-inner {
+      max-width: 1680px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px 14px;
+    }
+
+    .tabs-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      background: #f1f5f9;
+      padding: 4px;
+      border-radius: 10px;
+      border: 1px solid var(--border-light);
+    }
+
+    .tab-btn {
+      appearance: none;
+      border: none;
+      background: transparent;
+      color: var(--slate);
+      font-family: var(--font-sans);
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 7px 13px;
+      border-radius: 7px;
+      cursor: pointer;
+      transition: all 0.14s ease;
+      white-space: nowrap;
+    }
+
+    .tab-btn:hover {
+      background: rgba(255, 255, 255, 0.85);
+      color: var(--navy);
+    }
+
+    .tab-btn.active {
+      background: var(--navy);
+      color: #ffffff;
+      box-shadow: 0 1px 4px rgba(15, 23, 42, 0.22);
+    }
+
+    .mode-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .mode-toggle-btn {
+      appearance: none;
+      border: 1.5px solid var(--crimson);
+      background: var(--crimson-soft);
+      color: var(--crimson-dark);
+      font-family: var(--font-sans);
+      font-size: 0.8rem;
+      font-weight: 800;
+      padding: 7px 13px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: all 0.14s ease;
+      white-space: nowrap;
+    }
+
+    .mode-toggle-btn:hover {
+      background: var(--crimson);
+      color: #ffffff;
+    }
+
+    .mode-toggle-btn.active {
+      background: var(--crimson);
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(220, 38, 38, 0.28);
+    }
+
+    .print-now-btn {
+      appearance: none;
+      border: 1.5px solid var(--border-mid);
+      background: #ffffff;
+      color: var(--navy);
+      font-family: var(--font-sans);
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 7px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.14s ease;
+      white-space: nowrap;
+    }
+
+    .print-now-btn:hover {
+      background: var(--navy);
+      color: #ffffff;
+      border-color: var(--navy);
+    }
+
+    /* =========================================================================
+       MAIN WORKSPACE & TAB PANELS
+       ========================================================================= */
+    .workspace {
+      max-width: 1680px;
+      margin: 0 auto;
+      padding: 18px 22px 40px;
+    }
+
+    .tab-panel {
+      display: none;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .tab-panel.active {
+      display: flex;
+      animation: fadeSlide 0.16s ease;
+    }
+
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Continuous View All / Print Mode */
+    body.view-all-mode .tab-panel {
+      display: flex !important;
+      margin-bottom: 28px;
+      padding-bottom: 24px;
+      border-bottom: 2px dashed var(--border-mid);
+    }
+
+    body.view-all-mode .tab-panel:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+
+    body.view-all-mode .tabs-bar {
+      opacity: 0.45;
+      pointer-events: none;
+    }
+
+    .slide-banner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px 16px;
+      padding: 11px 16px;
+      background: #ffffff;
+      border: 1px solid var(--border-light);
+      border-left: 5px solid var(--navy);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-card);
+    }
+
+    .slide-banner.crimson { border-left-color: var(--crimson); }
+    .slide-banner.teal    { border-left-color: var(--teal); }
+    .slide-banner.blue    { border-left-color: var(--blue); }
+
+    .slide-banner h2 {
+      font-size: 1.12rem;
+      font-weight: 800;
+      color: var(--navy);
+      letter-spacing: -0.015em;
+    }
+
+    .slide-banner .banner-sub {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    /* =========================================================================
+       CARDS, BADGES & LAYOUT GRIDS
+       ========================================================================= */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-header {
+      padding: 11px 16px;
+      background: var(--bg-subtle);
+      border-bottom: 1px solid var(--border-light);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .card-title {
+      font-size: 0.98rem;
+      font-weight: 800;
+      color: var(--navy);
+      letter-spacing: -0.01em;
+    }
+
+    .card-subtitle {
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .card-body {
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 3px 9px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      white-space: nowrap;
+    }
+
+    .badge-navy    { background: #e2e8f0; color: var(--navy); border-color: #cbd5e1; }
+    .badge-crimson { background: var(--crimson-soft); color: var(--crimson-dark); border-color: var(--crimson-border); }
+    .badge-teal    { background: var(--teal-soft); color: var(--teal-dark); border-color: var(--teal-border); }
+    .badge-blue    { background: var(--blue-soft); color: var(--blue-dark); border-color: var(--blue-border); }
+    .badge-amber   { background: var(--amber-soft); color: var(--amber-dark); border-color: var(--amber-border); }
+    .badge-emerald { background: var(--emerald-soft); color: var(--emerald-dark); border-color: var(--emerald-border); }
+
+    .grid-70-30 {
+      display: grid;
+      grid-template-columns: minmax(0, 7fr) minmax(0, 3fr);
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    @media (max-width: 1180px) {
+      .grid-70-30 { grid-template-columns: 1fr; }
+      .grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 820px) {
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      .workspace { padding: 14px 12px 28px; }
+      .app-header, .nav-strip { padding-left: 12px; padding-right: 12px; }
+    }
+
+    /* =========================================================================
+       TABLES
+       ========================================================================= */
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+    }
+
+    table.data-table thead th {
+      background: var(--navy);
+      color: #f8fafc;
+      font-weight: 700;
+      font-size: 0.74rem;
+      letter-spacing: 0.03em;
+      text-align: right;
+      padding: 9px 10px;
+      border-bottom: 2px solid var(--crimson);
+      white-space: nowrap;
+    }
+
+    table.data-table thead th:first-child,
+    table.data-table tbody td:first-child {
+      text-align: left;
+    }
+
+    table.data-table tbody td {
+      padding: 7.5px 10px;
+      border-bottom: 1px solid var(--border-light);
+      text-align: right;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      color: var(--navy);
+      white-space: nowrap;
+    }
+
+    table.data-table tbody td.text-col {
+      font-family: var(--font-sans);
+      font-weight: 600;
+      text-align: left;
+      white-space: normal;
+    }
+
+    table.data-table thead th.text-col {
+      text-align: left;
+    }
+
+    table.data-table tbody tr:nth-child(even) {
+      background: #f8fafc;
+    }
+
+    table.data-table tbody tr:hover {
+      background: #f1f5f9;
+    }
+
+    /* Row Highlights */
+    tr.row-classic {
+      background: #f1f5f9 !important;
+    }
+    tr.row-shared {
+      background: #eff6ff !important;
+    }
+    tr.row-shared td:first-child {
+      border-left: 4px solid var(--blue);
+    }
+    tr.row-peak {
+      background: #fef2f2 !important;
+    }
+    tr.row-peak td {
+      font-weight: 800 !important;
+      color: #7f1d1d !important;
+    }
+    tr.row-peak td:first-child {
+      border-left: 4px solid var(--crimson);
+    }
+    tr.row-stretch {
+      background: #fffbeb !important;
+    }
+    tr.row-stretch td:first-child {
+      border-left: 4px solid var(--amber);
+    }
+
+    .inline-tag {
+      display: inline-block;
+      font-family: var(--font-sans);
+      font-size: 0.66rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      padding: 2px 6px;
+      border-radius: 5px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+
+    .tag-slate   { background: #e2e8f0; color: #334155; }
+    .tag-blue    { background: #dbeafe; color: #1e40af; }
+    .tag-crimson { background: #fee2e2; color: #991b1b; }
+    .tag-amber   { background: #fef3c7; color: #92400e; }
+    .tag-teal    { background: #ccfbf1; color: #115e59; }
+    .tag-emerald { background: #d1fae5; color: #065f46; }
+
+    /* =========================================================================
+       KEY INDEX LIST
+       ========================================================================= */
+    .key-index-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 6px;
+      padding: 12px 14px;
+      font-size: 0.78rem;
+      line-height: 1.38;
+    }
+
+    .key-index-list li {
+      display: grid;
+      grid-template-columns: 102px 1fr;
+      gap: 8px;
+      padding-bottom: 5px;
+      border-bottom: 1px dashed var(--border-light);
+      align-items: baseline;
+    }
+
+    .key-index-list li:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .key-sym {
+      font-family: var(--font-mono);
+      font-weight: 800;
+      color: var(--crimson-dark);
+      font-size: 0.77rem;
+    }
+
+    .key-desc {
+      color: var(--slate);
+    }
+
+    /* =========================================================================
+       FORMULA BANNERS, CALLOUTS & MATH STYLING
+       ========================================================================= */
+    .formula-banner {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: #f8fafc;
+      border-radius: var(--radius-lg);
+      padding: 16px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px 24px;
+      border-left: 5px solid var(--crimson);
+    }
+
+    .math-eq-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 18px 28px;
+    }
+
+    .math-eq {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-family: var(--font-mono);
+      font-size: 1.04rem;
+      font-weight: 700;
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 8px 14px;
+      border-radius: 9px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    .frac {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      vertical-align: middle;
+      margin: 0 3px;
+      font-size: 0.9em;
+      line-height: 1.15;
+    }
+
+    .frac .num {
+      border-bottom: 1.5px solid currentColor;
+      padding: 0 4px 2px;
+    }
+
+    .frac .den {
+      padding: 2px 4px 0;
+    }
+
+    .callout {
+      border-radius: var(--radius-md);
+      padding: 12px 15px;
+      border: 1px solid var(--border-light);
+      border-left: 4px solid var(--navy);
+      background: var(--bg-subtle);
+      font-size: 0.88rem;
+      color: var(--slate);
+    }
+
+    .callout.crimson {
+      background: var(--crimson-soft);
+      border-color: var(--crimson-border);
+      border-left-color: var(--crimson);
+      color: #7f1d1d;
+    }
+
+    .callout.teal {
+      background: var(--teal-soft);
+      border-color: var(--teal-border);
+      border-left-color: var(--teal);
+      color: #115e59;
+    }
+
+    .callout.blue {
+      background: var(--blue-soft);
+      border-color: var(--blue-border);
+      border-left-color: var(--blue);
+      color: #1e3a8a;
+    }
+
+    .callout.emerald {
+      background: var(--emerald-soft);
+      border-color: var(--emerald-border);
+      border-left-color: var(--emerald);
+      color: #064e3b;
+    }
+
+    .callout h4 {
+      font-size: 0.92rem;
+      font-weight: 800;
+      margin-bottom: 5px;
+      color: inherit;
+    }
+
+    .clean-list {
+      padding-left: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 0.87rem;
+    }
+
+    .clean-list li strong {
+      color: var(--navy);
+    }
+
+    /* Balance Sheet Ledger */
+    .ledger-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    @media (max-width: 780px) {
+      .ledger-grid { grid-template-columns: 1fr; }
+    }
+
+    .ledger-tile {
+      border-radius: var(--radius-md);
+      padding: 13px 15px;
+      border: 1.5px solid var(--border-light);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .ledger-tile.cost {
+      background: var(--crimson-soft);
+      border-color: var(--crimson-border);
+    }
+    .ledger-tile.gain {
+      background: var(--blue-soft);
+      border-color: var(--blue-border);
+    }
+    .ledger-tile.profit {
+      background: var(--emerald-soft);
+      border-color: var(--emerald-border);
+    }
+
+    .ledger-k {
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+    }
+
+    .ledger-v {
+      font-family: var(--font-mono);
+      font-size: 1.38rem;
+      font-weight: 800;
+    }
+
+    .ledger-tile.cost .ledger-v   { color: var(--crimson-dark); }
+    .ledger-tile.gain .ledger-v   { color: var(--blue-dark); }
+    .ledger-tile.profit .ledger-v { color: var(--emerald-dark); }
+
+    .ledger-desc {
+      font-size: 0.8rem;
+      color: var(--slate);
+    }
+
+    /* =========================================================================
+       SVG SINGLE-LINE CIRCUIT DIAGRAM CARDS
+       ========================================================================= */
+    .circuit-card {
+      background: #ffffff;
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .circuit-stage {
+      background: #ffffff;
+      padding: 10px 12px 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .circuit-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      max-width: 680px;
+    }
+
+    .pill-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 10px 14px;
+      background: var(--bg-subtle);
+      border-top: 1px solid var(--border-light);
+    }
+
+    .spec-pill {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--navy);
+      background: #ffffff;
+      border: 1px solid var(--border-mid);
+      border-radius: 6px;
+      padding: 3px 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .spec-pill span.k {
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .spec-pill.hi-red {
+      border-color: var(--crimson-border);
+      background: var(--crimson-soft);
+      color: var(--crimson-dark);
+    }
+
+    .spec-pill.hi-teal {
+      border-color: var(--teal-border);
+      background: var(--teal-soft);
+      color: var(--teal-dark);
+    }
+
+    .spec-pill.hi-emerald {
+      border-color: var(--emerald-border);
+      background: var(--emerald-soft);
+      color: var(--emerald-dark);
+    }
+
+    /* Tab 5: Master 3-Top + 2-Bottom Grid */
+    .master-row-top {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .master-row-bottom {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      max-width: 1180px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    @media (max-width: 1160px) {
+      .master-row-top { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 780px) {
+      .master-row-top, .master-row-bottom { grid-template-columns: 1fr; }
+    }
+
+    .stat-compare-box {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    @media (max-width: 700px) {
+      .stat-compare-box { grid-template-columns: 1fr; }
+    }
+
+    .mini-stat-panel {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .mini-stat-panel.accent-teal {
+      border-top: 3.5px solid var(--teal);
+    }
+
+    .mini-stat-panel.accent-blue {
+      border-top: 3.5px solid var(--blue);
+    }
+
+    .mini-stat-panel.accent-crimson {
+      border-top: 3.5px solid var(--crimson);
+    }
+
+    .mini-stat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+      font-size: 0.82rem;
+      border-bottom: 1px dashed var(--border-light);
+      padding-bottom: 4px;
+    }
+
+    .mini-stat-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .mini-stat-row .mk {
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .mini-stat-row .mv {
+      font-family: var(--font-mono);
+      font-weight: 800;
+      color: var(--navy);
+      text-align: right;
+    }
+
+    /* =========================================================================
+       PRINT STYLESHEET
+       ========================================================================= */
+    @media print {
+      @page {
+        size: landscape;
+        margin: 10mm;
+      }
+      body {
+        background: #ffffff !important;
+        font-size: 11.5px;
+      }
+      .top-chrome {
+        position: static;
+        box-shadow: none;
+      }
+      .nav-strip {
+        display: none !important;
+      }
+      .workspace {
+        padding: 10px 0 0;
+        max-width: 100%;
+      }
+      .tab-panel {
+        display: flex !important;
+        break-after: page;
+        page-break-after: always;
+        border-bottom: none !important;
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+      }
+      .tab-panel:last-child {
+        break-after: auto;
+        page-break-after: auto;
+      }
+      .card, .circuit-card, .formula-banner {
+        box-shadow: none !important;
+        break-inside: avoid;
+      }
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =======================================================================
+       STICKY HEADER & 5-TAB NAVIGATION CHROME
+       ======================================================================= -->
+  <div class="top-chrome">
+    <header class="app-header">
+      <div class="header-inner">
+        <div class="title-group">
+          <div class="app-title">
+            <span>HF Vertical Antenna Electrical Optimization: 17m, 40m &amp; 80m Theory Summary</span>
+            <span class="title-pill teal">Z₀ = 50 Ω</span>
+            <span class="title-pill">Alpine Rock 2-Radial Study</span>
+          </div>
+          <div class="app-sub">
+            Iterative Induced-EMF &amp; Method-of-Moments Synthesis &nbsp;|&nbsp; VF = 0.97 &nbsp;|&nbsp; KCO-13 Silver Mica &amp; Low-Loss Copper Inductors
+          </div>
+        </div>
+        <div class="app-sub" style="text-align:right;">
+          17m 5/8λ Topo 3 &nbsp;·&nbsp; 40m Stretched 1/4λ Series-C &nbsp;·&nbsp; 80m Over-Loaded Mid-Coil (&lt;13 m)
+        </div>
+      </div>
+    </header>
+
+    <nav class="nav-strip" aria-label="Lecture Sections">
+      <div class="nav-inner">
+        <div class="tabs-bar" role="tablist" id="tabsBar">
+          <button class="tab-btn active" role="tab" data-tab="tab1">1. 40m Length Sweep &amp; Physics</button>
+          <button class="tab-btn" role="tab" data-tab="tab2">2. 17m vs. 40m &amp; Radials</button>
+          <button class="tab-btn" role="tab" data-tab="tab3">3. SWR, EIRP &amp; RX Filtering</button>
+          <button class="tab-btn" role="tab" data-tab="tab4">4. 80m Mid-Loaded (&lt;13 m)</button>
+          <button class="tab-btn" role="tab" data-tab="tab5">5. All 5 Circuit Line Diagrams</button>
+        </div>
+
+        <div class="mode-actions">
+          <button class="mode-toggle-btn" id="viewAllToggle" aria-pressed="false">
+            <span id="viewAllIcon">▤</span>
+            <span id="viewAllLabel">View All / Print Mode</span>
+          </button>
+          <button class="print-now-btn" id="printBtn" title="Open system print / PDF dialog">Print / Save PDF</button>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <!-- =======================================================================
+       MAIN LECTURE WORKSPACE
+       ======================================================================= -->
+  <main class="workspace">
+
+    <!-- =====================================================================
+         TAB 1: 40m LENGTH SWEEP & CURRENT PHYSICS
+         ===================================================================== -->
+    <section id="tab1" class="tab-panel active">
+      <div class="slide-banner crimson">
+        <div>
+          <h2>Tab 1 — 40m (7.100 MHz, VF = 0.97) Length Sweep — Series C Only (No Base Inductor Coil)</h2>
+          <div class="banner-sub">Stretching a 40m quarter-wave monopole beyond 0.25λ raises radiation resistance faster than ground loss, canceled cleanly by a single series capacitor.</div>
+        </div>
+        <span class="badge badge-crimson">Zero Base Coil Loss</span>
+      </div>
+
+      <!-- 70% Data Table / 30% Symbol Key Index -->
+      <div class="grid-70-30">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Table 1.1 — 40m Length Sweep with Series C Only (7.100 MHz, VF = 0.97)</div>
+              <div class="card-subtitle">No Base Inductor Coil &nbsp;|&nbsp; Highlighting 10.00 m, 10.35 m (Shared 17m), 11.35 m (50 Ω Peak), and 12.00 m</div>
+            </div>
+            <span class="badge badge-navy">10 Iterations</span>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>L (m)</th>
+                  <th>h/λ</th>
+                  <th>R_rad (Ω)</th>
+                  <th>X_ant (Ω)</th>
+                  <th>C_ser (pF)</th>
+                  <th>D_hor (dBi)</th>
+                  <th>EIRP (Rg=5)</th>
+                  <th>EIRP (Rg=15)</th>
+                  <th>SWR@7.1 (Rg=15)</th>
+                  <th>SWR 7.0/7.2 (Rg=15)</th>
+                  <th>Vc_pk@100W</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="row-classic">
+                  <td>10.00 <span class="inline-tag tag-slate">Classic 1/4λ</span></td>
+                  <td>0.244</td>
+                  <td>34.1</td>
+                  <td>+0.4</td>
+                  <td>61703.8 (Direct)</td>
+                  <td>5.14</td>
+                  <td>+4.55</td>
+                  <td>+3.56</td>
+                  <td>1.02</td>
+                  <td>1.29 / 1.28</td>
+                  <td>1 V</td>
+                </tr>
+                <tr class="row-shared">
+                  <td>10.35 <span class="inline-tag tag-blue">Shared 17m Wire</span></td>
+                  <td>0.253</td>
+                  <td>37.7</td>
+                  <td>+31.0</td>
+                  <td>723.2</td>
+                  <td>5.17</td>
+                  <td>+4.63</td>
+                  <td>+3.72</td>
+                  <td>1.05</td>
+                  <td>1.30 / 1.31</td>
+                  <td>60 V</td>
+                </tr>
+                <tr>
+                  <td>10.50</td>
+                  <td>0.256</td>
+                  <td>39.4</td>
+                  <td>+44.3</td>
+                  <td>506.5</td>
+                  <td>5.18</td>
+                  <td>+4.66</td>
+                  <td>+3.78</td>
+                  <td>1.09</td>
+                  <td>1.31 / 1.33</td>
+                  <td>85 V</td>
+                </tr>
+                <tr>
+                  <td>11.00</td>
+                  <td>0.269</td>
+                  <td>45.5</td>
+                  <td>+89.3</td>
+                  <td>251.1</td>
+                  <td>5.23</td>
+                  <td>+4.77</td>
+                  <td>+3.99</td>
+                  <td>1.21</td>
+                  <td>1.38 / 1.42</td>
+                  <td>162 V</td>
+                </tr>
+                <tr class="row-peak">
+                  <td>11.35 <span class="inline-tag tag-crimson">50 Ω Max-EIRP Peak</span></td>
+                  <td>0.277</td>
+                  <td>50.3</td>
+                  <td>+121.7</td>
+                  <td>184.1</td>
+                  <td>5.26</td>
+                  <td>+4.85</td>
+                  <td>+4.13</td>
+                  <td>1.31</td>
+                  <td>1.45 / 1.51</td>
+                  <td>213 V</td>
+                </tr>
+                <tr>
+                  <td>11.50</td>
+                  <td>0.281</td>
+                  <td>52.6</td>
+                  <td>+136.0</td>
+                  <td>164.9</td>
+                  <td>5.27</td>
+                  <td>+4.88</td>
+                  <td>+4.18</td>
+                  <td>1.35</td>
+                  <td>1.49 / 1.56</td>
+                  <td>234 V</td>
+                </tr>
+                <tr class="row-stretch">
+                  <td>12.00 <span class="inline-tag tag-amber">1.5:1 Limit</span></td>
+                  <td>0.293</td>
+                  <td>60.8</td>
+                  <td>+185.0</td>
+                  <td>121.2</td>
+                  <td>5.33</td>
+                  <td>+4.98</td>
+                  <td>+4.37</td>
+                  <td>1.52</td>
+                  <td>1.63 / 1.73</td>
+                  <td>300 V</td>
+                </tr>
+                <tr>
+                  <td>12.50</td>
+                  <td>0.305</td>
+                  <td>70.6</td>
+                  <td>+237.2</td>
+                  <td>94.5</td>
+                  <td>5.38</td>
+                  <td>+5.08</td>
+                  <td>+4.54</td>
+                  <td>1.71</td>
+                  <td>1.82 / 1.94</td>
+                  <td>363 V</td>
+                </tr>
+                <tr>
+                  <td>13.00</td>
+                  <td>0.317</td>
+                  <td>82.2</td>
+                  <td>+293.5</td>
+                  <td>76.4</td>
+                  <td>5.44</td>
+                  <td>+5.18</td>
+                  <td>+4.71</td>
+                  <td>1.94</td>
+                  <td>2.04 / 2.20</td>
+                  <td>421 V</td>
+                </tr>
+                <tr>
+                  <td>14.00</td>
+                  <td>0.342</td>
+                  <td>113.4</td>
+                  <td>+423.3</td>
+                  <td>53.0</td>
+                  <td>5.56</td>
+                  <td>+5.37</td>
+                  <td>+5.02</td>
+                  <td>2.57</td>
+                  <td>2.64 / 2.92</td>
+                  <td>528 V</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div style="padding:9px 14px;background:var(--bg-subtle);border-top:1px solid var(--border-light);font-size:0.78rem;color:var(--slate);">
+            <strong>Key Physics Observation:</strong> As <strong>X_ant</strong> rises linearly from +0.4 Ω to +423.3 Ω, required <strong>C_ser = 1 / (ω · X_ant)</strong> plunges down a steep hyperbola (Direct → 723 → 184 → 121 → 53 pF). Above 11.35–12.00 m, rising mismatch on hillside rock (SWR &gt; 1.5:1) offsets the efficiency gain unless an L-network is added.
+          </div>
+        </div>
+
+        <!-- Symbol & Term Key Index Card (30% Width) -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Symbol &amp; Term Key Index</div>
+            <span class="badge badge-navy">Glossary</span>
+          </div>
+          <ul class="key-index-list">
+            <li><span class="key-sym">L (m)</span><span class="key-desc">Physical vertical radiator length in meters.</span></li>
+            <li><span class="key-sym">h / λ</span><span class="key-desc">Electrical height in wavelengths (accounting for wire velocity factor VF = 0.97).</span></li>
+            <li><span class="key-sym">VF</span><span class="key-desc">Wire velocity factor (0.97 for insulated copper wire).</span></li>
+            <li><span class="key-sym">R_rad</span><span class="key-desc">Pure radiation resistance at feedpoint (Ω).</span></li>
+            <li><span class="key-sym">R_r(Imax)</span><span class="key-desc">Radiation resistance referred to current maximum along the wire (Ω).</span></li>
+            <li><span class="key-sym">R_base</span><span class="key-desc">Feedpoint radiation resistance = R_r(Imax) / sin²(kh) (Ω).</span></li>
+            <li><span class="key-sym">X_ant</span><span class="key-desc">Feedpoint antenna reactance (+j inductive, −j capacitive) (Ω).</span></li>
+            <li><span class="key-sym">C_ser</span><span class="key-desc">Series base capacitance required to cancel +jX_ant at 7.100 MHz (pF).</span></li>
+            <li><span class="key-sym">D_hor</span><span class="key-desc">Horizon directivity over ideal conducting ground (dBi).</span></li>
+            <li><span class="key-sym">Rg / R_gnd</span><span class="key-desc">Ground &amp; radial system loss resistance (5 Ω good meadow; 15 Ω alpine hillside; 30 Ω dry rock).</span></li>
+            <li><span class="key-sym">EIRP</span><span class="key-desc">Effective Isotropic Radiated Power index (Directivity + Efficiency loss, dBi).</span></li>
+            <li><span class="key-sym">SWR</span><span class="key-desc">Voltage Standing Wave Ratio relative to 50 Ω coax.</span></li>
+            <li><span class="key-sym">Vc_pk@100W</span><span class="key-desc">Peak RF voltage across series capacitor at 100 W transmit power.</span></li>
+            <li><span class="key-sym">η(base)/η(soil)</span><span class="key-desc">Radiation efficiency under fixed-base vs. soil-scaled current-max ground loss models.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Table 2: Proof of Genuine Radiation Gain -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Table 1.2 — 40m (7.10 MHz): R_rad (Current Max) vs. R_rad (Base) — Proof of Genuine Radiation Gain</div>
+            <div class="card-subtitle">Evaluated at Alpine Hillside Ground Loss Rg = 15 Ω &nbsp;|&nbsp; Confirming efficiency rise is real physics, not an impedance-transformation artifact</div>
+          </div>
+          <span class="badge badge-emerald">η(soil): 62.1% → 76.5%</span>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Length L (h/λ)</th>
+                <th>sin²(kh)</th>
+                <th>R_r(Imax)</th>
+                <th>R_base</th>
+                <th>X_ant</th>
+                <th>D_hor</th>
+                <th>η(base)</th>
+                <th>η(soil)</th>
+                <th>EIRP_soil (Rg=15 Ω)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>9.00 m (0.220λ)</td>
+                <td>0.964</td>
+                <td>24.6 Ω</td>
+                <td>25.5 Ω</td>
+                <td>−86.2 Ω</td>
+                <td>5.07 dBi</td>
+                <td>63.0%</td>
+                <td>62.1%</td>
+                <td>+3.00 dBi</td>
+              </tr>
+              <tr class="row-classic">
+                <td>10.00 m (0.244λ)</td>
+                <td>0.999</td>
+                <td>34.1 Ω</td>
+                <td>34.1 Ω</td>
+                <td>+0.4 Ω</td>
+                <td>5.14 dBi</td>
+                <td>69.5%</td>
+                <td>69.4%</td>
+                <td>+3.56 dBi</td>
+              </tr>
+              <tr class="row-shared">
+                <td>10.35 m (0.253λ) <span class="inline-tag tag-blue">Box 2</span></td>
+                <td>1.000</td>
+                <td>37.7 Ω</td>
+                <td>37.7 Ω</td>
+                <td>+31.0 Ω</td>
+                <td>5.17 dBi</td>
+                <td>71.6%</td>
+                <td>71.6%</td>
+                <td>+3.72 dBi</td>
+              </tr>
+              <tr>
+                <td>10.50 m (0.256λ)</td>
+                <td>0.998</td>
+                <td>39.3 Ω</td>
+                <td>39.4 Ω</td>
+                <td>+44.3 Ω</td>
+                <td>5.18 dBi</td>
+                <td>72.4%</td>
+                <td>72.4%</td>
+                <td>+3.78 dBi</td>
+              </tr>
+              <tr>
+                <td>11.00 m (0.269λ)</td>
+                <td>0.986</td>
+                <td>44.9 Ω</td>
+                <td>45.5 Ω</td>
+                <td>+89.3 Ω</td>
+                <td>5.23 dBi</td>
+                <td>75.2%</td>
+                <td>75.0%</td>
+                <td>+3.98 dBi</td>
+              </tr>
+              <tr class="row-peak">
+                <td>11.35 m (0.277λ) <span class="inline-tag tag-crimson">Box 3</span></td>
+                <td>0.971</td>
+                <td>48.9 Ω</td>
+                <td>50.3 Ω</td>
+                <td>+121.7 Ω</td>
+                <td>5.26 dBi</td>
+                <td>77.0%</td>
+                <td>76.5%</td>
+                <td>+4.10 dBi</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Compact Summary Card of Two Final 40m Versions + Side-by-Side SVGs -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Final Selected 40m Configurations (Net EIRP Including Mismatch Loss)</div>
+          <span class="badge badge-blue">Zero Base Coil · Disjoint KCO-13 Pairs</span>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Configuration</th>
+                <th>Length (h/λ)</th>
+                <th>Raw Z_ant (R_rad + jX)</th>
+                <th>Target C_ser → Measured KCO-13</th>
+                <th>Radials (Rock)</th>
+                <th>Rg = 5 Ω (SWR / Net EIRP)</th>
+                <th>Rg = 15 Ω (SWR / Net EIRP)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="row-shared">
+                <td><strong>Box 2 — 40m Shared w/ 17m</strong></td>
+                <td>10.35 m (0.253λ)</td>
+                <td>37.7 + j31.0 Ω</td>
+                <td>723 pF → <strong>334.8 ∥ 373.7 = 708.5 pF</strong></td>
+                <td>2 × 10.00 m (9.98 m)</td>
+                <td>1.17:1 &nbsp;|&nbsp; +4.60 dBi</td>
+                <td>1.05:1 &nbsp;|&nbsp; +3.71 dBi</td>
+              </tr>
+              <tr class="row-peak">
+                <td><strong>Box 3 — 40m Max-EIRP</strong></td>
+                <td>11.35 m (0.277λ)</td>
+                <td>50.3 + j121.7 Ω</td>
+                <td>184 pF → <strong>87.1 ∥ 96.39 = 183.49 pF</strong></td>
+                <td>2 × 10.00 m (9.98 m)</td>
+                <td>1.11:1 &nbsp;|&nbsp; +4.83 dBi</td>
+                <td>1.31:1 &nbsp;|&nbsp; +4.02 dBi</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="circuit-card" id="tab1-svg-box2"></div>
+        <div class="circuit-card" id="tab1-svg-box3"></div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         TAB 2: 17m DEDICATED VS. 40m SHARED & RADIAL GEOMETRY
+         ===================================================================== -->
+    <section id="tab2" class="tab-panel">
+      <div class="slide-banner teal">
+        <div>
+          <h2>Tab 2 — 17m Dedicated 5/8λ vs. 40m Shared Wire &amp; Alpine Radial Scaling</h2>
+          <div class="banner-sub">Why the exact same 10.35 m conductor produces +7.27 dBi net EIRP on 17m (+8.17 dBi D_hor) vs. +3.71 dBi on 40m — and how a 1.00 m clip-on stub unlocks both optimums.</div>
+        </div>
+        <span class="badge badge-teal">Topology 3 (17m) + Series C (40m)</span>
+      </div>
+
+      <!-- Deep Explanation Card + SVG Side by Side -->
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Why the Exact Same 10.35 m Wire Yields Completely Different dBi on 17m vs. 40m</div>
+            <span class="badge badge-teal">+3.56 dB Net Difference</span>
+          </div>
+          <div class="card-body">
+            <div class="stat-compare-box">
+              <div class="mini-stat-panel accent-teal">
+                <div style="font-weight:800;color:var(--teal-dark);font-size:0.9rem;">17m Band (18.118 MHz) — 5/8λ Optimal</div>
+                <div class="mini-stat-row"><span class="mk">Electrical Height</span><span class="mv">0.645λ</span></div>
+                <div class="mini-stat-row"><span class="mk">Horizon Directivity D_hor</span><span class="mv" style="color:var(--teal-dark);">+8.17 dBi</span></div>
+                <div class="mini-stat-row"><span class="mk">Power Below 30° Elev.</span><span class="mv">86.5% (Flat DX Lobe)</span></div>
+                <div class="mini-stat-row"><span class="mk">Radiation Resistance R_rad</span><span class="mv">76.5 Ω</span></div>
+                <div class="mini-stat-row"><span class="mk">Rad Eff / Coil Eff (Rg=15 Ω)</span><span class="mv">83.6% / 97.3%</span></div>
+                <div class="mini-stat-row"><span class="mk">Net EIRP (Rg=15 Ω) &amp; SWR</span><span class="mv" style="color:var(--emerald-dark);">+7.27 dBi · 1.07:1</span></div>
+              </div>
+
+              <div class="mini-stat-panel accent-blue">
+                <div style="font-weight:800;color:var(--blue-dark);font-size:0.9rem;">40m Band (7.100 MHz) — 1/4λ+ Shared</div>
+                <div class="mini-stat-row"><span class="mk">Electrical Height</span><span class="mv">0.253λ</span></div>
+                <div class="mini-stat-row"><span class="mk">Horizon Directivity D_hor</span><span class="mv" style="color:var(--blue-dark);">+5.17 dBi (−3.00 dB)</span></div>
+                <div class="mini-stat-row"><span class="mk">Elevation Pattern</span><span class="mv">Broad 1/4λ Donut</span></div>
+                <div class="mini-stat-row"><span class="mk">Radiation Resistance R_rad</span><span class="mv">37.7 Ω</span></div>
+                <div class="mini-stat-row"><span class="mk">Rad Eff / Coil Eff (Rg=15 Ω)</span><span class="mv">71.6% / 100%</span></div>
+                <div class="mini-stat-row"><span class="mk">Net EIRP (Rg=15 Ω) &amp; SWR</span><span class="mv" style="color:var(--blue-dark);">+3.71 dBi · 1.05–1.06:1</span></div>
+              </div>
+            </div>
+
+            <div class="callout crimson">
+              <h4>Why You Must Not Stretch the Shared Wire Permanently to 11.35 m</h4>
+              <p>On 17m, lengthening the wire from <strong>10.35 m (0.645λ)</strong> to <strong>11.35 m (0.707λ)</strong> pushes past the 5/8λ vertical-aperture cliff: a phase-reversed lower current lobe breaks up the pattern, dropping horizon directivity by <strong>−1.66 dB</strong> (down to <strong>+6.51 dBi</strong>) and firing <strong>&gt;53% of radiated power above 30° elevation</strong>.</p>
+            </div>
+
+            <div class="callout emerald">
+              <h4>Field Strategy — Main 10.35 m Wire + 1.00 m Clip-On Base Extension (WAGO 221)</h4>
+              <ul class="clean-list">
+                <li><strong>17m Mode (10.35 m):</strong> <code>14.55 ∥ 19.97</code> (<strong>34.52 pF</strong>) + shunt coil clip at <strong>1.37 µH</strong> → <strong>+8.17 dBi</strong> low-angle pattern (<strong>+7.27 dBi</strong> net EIRP @ Rg=15 Ω), <strong>1.07:1 SWR</strong>.</li>
+                <li><strong>40m Quick Mode (10.35 m, no wire change):</strong> Unclip shunt coil + <code>334.8 ∥ 373.7</code> (<strong>708.5 pF</strong>) → <strong>1.06:1 SWR</strong>, <strong>+0.71 dB</strong> over a 9.0 m wire.</li>
+                <li><strong>40m Max-EIRP Mode (11.35 m with +1.00 m extension):</strong> <code>87.1 ∥ 96.39</code> (<strong>183.49 pF</strong>), no coil → <strong>1.31:1 SWR</strong>, <strong>+4.02 dBi</strong> net EIRP @ Rg=15 Ω.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Box 1 SVG Diagram -->
+        <div class="circuit-card" id="tab2-svg-box1"></div>
+      </div>
+
+      <!-- Radial Geometry & Alpine Rock Scaling Table -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Table 2.1 — Radial Geometry &amp; Alpine Rock Scaling (2 Elevated / Sloped Radials)</div>
+            <div class="card-subtitle">Shortening factor 0.945 combines wire insulation velocity factor and proximity to alpine rock · Radials remain λ/4 resonant even for stretched Box 3</div>
+          </div>
+          <span class="badge badge-amber">Modular Radial Extensions</span>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Band (Center Freq.)</th>
+                <th>Wavelength λ</th>
+                <th>λ/4 Free Space</th>
+                <th>Elevated (VF = 0.96)</th>
+                <th>Sloped Alpine Rock (0.945)</th>
+                <th class="text-col">Field Cut &amp; Modular Extension Strategy</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>17m</strong> (18.118 MHz)</td>
+                <td>16.547 m</td>
+                <td>4.137 m</td>
+                <td>3.971 m</td>
+                <td><strong>3.909 m</strong></td>
+                <td class="text-col">Use <strong>2 × 3.91 m</strong> base radials (180° opposite or wide-V).</td>
+              </tr>
+              <tr class="row-shared">
+                <td><strong>40m</strong> (7.100 MHz)</td>
+                <td>42.224 m</td>
+                <td>10.556 m</td>
+                <td>10.134 m</td>
+                <td><strong>9.975 m</strong></td>
+                <td class="text-col">Use <strong>2 × 10.00 m</strong> (9.98 m). Add <strong>+6.07 m</strong> extension to turn each 17m radial (3.91 m) into a 40m radial (9.98 m). Identical pair for Box 2 &amp; Box 3.</td>
+              </tr>
+              <tr>
+                <td><strong>80m</strong> (3.650 MHz)</td>
+                <td>82.135 m</td>
+                <td>20.534 m</td>
+                <td>19.713 m</td>
+                <td><strong>19.400 m</strong></td>
+                <td class="text-col">Use <strong>2 × 19.40 m</strong>. Add <strong>+9.40 m</strong> extension onto each 40m radial (10.00 m).</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Dedicated Resolution Table (Boxes 1, 2, 3) -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Table 2.2 — Final Resolution of Dedicated Alpine Rock Optimums (Boxes 1, 2 &amp; 3)</div>
+          <span class="badge badge-navy">100% Disjoint KCO-13 Inventory</span>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Dedicated Box</th>
+                <th>Radiator Wire</th>
+                <th class="text-col">Series Capacitors &amp; Shunt Coil</th>
+                <th>2-Radial Pair (Rock)</th>
+                <th>SWR (Rg = 15 Ω)</th>
+                <th>Net EIRP (Rg = 15 Ω)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Box 1 — 17m Dedicated (Optimal 5/8λ)</strong></td>
+                <td><strong>10.35 m</strong> (0.645λ)</td>
+                <td class="text-col"><code>14.55 ∥ 19.97</code> = <strong>34.52 pF</strong> + <strong>1.37 µH</strong> bare shunt coil (Topo 3)</td>
+                <td><strong>2 × 3.91 m</strong></td>
+                <td><strong>1.07:1</strong></td>
+                <td><strong>+7.27 dBi</strong> (+8.17 dBi D_hor)</td>
+              </tr>
+              <tr class="row-shared">
+                <td><strong>Box 2 — 40m Shared with 17m</strong></td>
+                <td><strong>10.35 m</strong> (0.253λ)</td>
+                <td class="text-col"><code>334.8 ∥ 373.7</code> = <strong>708.5 pF</strong>, <strong>No Coil</strong></td>
+                <td><strong>2 × 10.00 m</strong></td>
+                <td><strong>1.06:1</strong></td>
+                <td><strong>+3.71 dBi</strong></td>
+              </tr>
+              <tr class="row-peak">
+                <td><strong>Box 3 — 40m Dedicated Max-EIRP</strong></td>
+                <td><strong>11.35 m</strong> (10.35 + 1.00 m)</td>
+                <td class="text-col"><code>87.1 ∥ 96.39</code> = <strong>183.49 pF</strong>, <strong>No Coil</strong></td>
+                <td><strong>2 × 10.00 m</strong></td>
+                <td><strong>1.31:1</strong> (1.11:1 @ 5 Ω)</td>
+                <td><strong>+4.02 dBi</strong> (+4.83 dBi @ 5 Ω)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         TAB 3: SWR VS. EIRP LINK BUDGET & RECEIVER FILTERING
+         ===================================================================== -->
+    <section id="tab3" class="tab-panel">
+      <div class="slide-banner blue">
+        <div>
+          <h2>Tab 3 — SWR vs. EIRP Link Budget &amp; Passive Front-End Receiver Filtering</h2>
+          <div class="banner-sub">Why SWR is a system constraint rather than the objective function — and how series-C &amp; high-pass networks act as zero-power preselectors on receive.</div>
+        </div>
+        <span class="badge badge-blue">Quadratic Reflection Physics</span>
+      </div>
+
+      <!-- Formula Banner -->
+      <div class="formula-banner">
+        <div class="math-eq-group">
+          <div class="math-eq">
+            <span>|Γ| =</span>
+            <span class="frac"><span class="num">SWR − 1</span><span class="den">SWR + 1</span></span>
+          </div>
+          <div class="math-eq">
+            <span>L<sub>mismatch</sub> = −10 · log<sub>10</sub>(1 − |Γ|²)</span>
+          </div>
+        </div>
+        <div style="max-width:520px;font-size:0.84rem;color:#e2e8f0;">
+          <strong style="color:#fbbf24;">Correcting Linear Intuition:</strong> Reflected power scales with <strong>|Γ|²</strong>, not linearly with SWR. Moving from <strong>1.05:1</strong> to <strong>1.31:1</strong> increases mismatch loss by only <strong>0.076 dB</strong> — less than one-quarter of the +0.39 dB radiation efficiency gain earned by stretching the 40m wire to 11.35 m.
+        </div>
+      </div>
+
+      <!-- Exact Reflection & Mismatch Table -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Table 3.1 — Exact Reflection &amp; Coax Mismatch Loss Comparison (40m, 7.100 MHz)</div>
+          <span class="badge badge-navy">10 m Aircell 7 Feedline</span>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Configuration &amp; SWR</th>
+                <th>Reflection |Γ|</th>
+                <th>Reflected Power (|Γ|²)</th>
+                <th>Mismatch Loss (dB)</th>
+                <th>Extra Coax Loss (10 m Aircell 7 @ 7.1 MHz)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="row-shared">
+                <td><strong>1.05:1</strong> &nbsp;(10.35 m — Box 2)</td>
+                <td>0.024</td>
+                <td>0.06%</td>
+                <td>0.003 dB</td>
+                <td>0.0002 dB</td>
+              </tr>
+              <tr class="row-peak">
+                <td><strong>1.31:1</strong> &nbsp;(11.35 m — Box 3)</td>
+                <td>0.134</td>
+                <td>1.80%</td>
+                <td>0.079 dB</td>
+                <td>0.0073 dB</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Hillside Link-Budget Balance Sheet -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Hillside Link-Budget Balance Sheet (Rg = 15 Ω: Extending 10.35 m → 11.35 m)</div>
+          <span class="badge badge-emerald">Net Positive Link Margin</span>
+        </div>
+        <div class="card-body">
+          <div class="ledger-grid">
+            <div class="ledger-tile cost">
+              <span class="ledger-k">Cost Paid (Mismatch + Coax)</span>
+              <span class="ledger-v">−0.08 dB</span>
+              <span class="ledger-desc">−0.079 dB mismatch loss plus a negligible 0.007 dB extra loss in short portable coax.</span>
+            </div>
+            <div class="ledger-tile gain">
+              <span class="ledger-k">Gain Earned (Radiator Physics)</span>
+              <span class="ledger-v">+0.39 dB</span>
+              <span class="ledger-desc">Higher radiation resistance (<strong>50.3 Ω vs. 37.7 Ω</strong>) beating hillside ground loss + tighter pattern directivity.</span>
+            </div>
+            <div class="ledger-tile profit">
+              <span class="ledger-k">Net Radiated Profit (EIRP)</span>
+              <span class="ledger-v">+0.31 dB</span>
+              <span class="ledger-desc"><strong>+7.4% more RF power</strong> actually leaving the antenna into the far field.</span>
+            </div>
+          </div>
+
+          <div class="grid-2" style="margin-top:4px;">
+            <div class="callout">
+              <h4>Operational Context — SSB Voice</h4>
+              <p><strong>+0.3 dB</strong> is completely undetectable to the human ear (1 S-unit = 6 dB; smallest perceptible audio change ≈ 1 dB). For casual voice operation, keeping the fixed <strong>10.35 m</strong> wire at <strong>1.05:1 SWR</strong> is faster and simpler.</p>
+            </div>
+            <div class="callout blue">
+              <h4>Operational Context — Weak-Signal Digital &amp; Link-Budget Engineering</h4>
+              <p>Near the <strong>−28 dB</strong> decoding cliff of <strong>WSPR or Q65</strong> — or in commercial defense and aerospace link budgets where every 0.1 dB translates directly to PA wattage, heatsink mass, and battery weight — <strong>+0.3 to +0.4 dB</strong> gained for free from a 1 m wire extension is genuine engineering margin.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Receive-Side Sensitivity & Natural Bandpass / High-Pass Preselector -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Receive-Side Benefits — Receiver Sensitivity &amp; Natural Passive Bandpass / High-Pass Preselection</div>
+            <div class="card-subtitle">Passive attenuation into 50 Ω receiver input across out-of-band frequencies — protecting LNA, mixer, and ADC dynamic range BEFORE the radio front end</div>
+          </div>
+          <span class="badge badge-teal">−87.1 dB AM Broadcast Barrier</span>
+        </div>
+        <div class="card-body">
+          <div class="grid-2">
+            <div class="callout emerald">
+              <h4>Reciprocity &amp; Quiet-Site Receiver Sensitivity</h4>
+              <p>By electromagnetic reciprocity, transmit efficiency and elevation directivity apply identically on receive. On quiet high-altitude sites and upper HF bands (especially <strong>17m</strong>), external atmospheric noise drops near the receiver's thermal noise floor. Higher radiation efficiency (<strong>+0.31 dB</strong> on 40m; <strong>83.6%</strong> on 17m) and 17m's low-angle pattern discrimination (<strong>86.5% below 30°</strong>, rejecting high-angle local NVIS QRM and thunderstorms) directly improve received SNR.</p>
+            </div>
+            <div class="callout teal">
+              <h4>Why Box 1 &amp; Box 3 Protect Receiver Dynamic Range</h4>
+              <p><strong>Box 1 (Topology 3 High-Pass)</strong> pairs a <strong>34.52 pF</strong> series barrier (|X_c| = 4,611 Ω at 1 MHz) with a <strong>1.37 µH</strong> shunt inductor to ground (|X_L| = 8.6 Ω at 1 MHz), creating a steep 2nd-order high-pass divider yielding <strong>−87.1 dB AM broadcast suppression</strong> and <strong>−20 to −49 dB</strong> out-of-band HF attenuation. On 40m, <strong>Box 3's 183.5 pF</strong> capacitor presents <strong>~4× higher low-frequency barrier impedance</strong> (<strong>867 Ω vs. 225 Ω</strong> at 1 MHz) than Box 2's 708.5 pF.</p>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Frequency (Service / Band)</th>
+                  <th>Box 1 — 17m Topo 3 (34.52 pF + 1.37 µH)</th>
+                  <th>Box 2 — 40m Shared (708.5 pF)</th>
+                  <th>Box 3 — 40m Max-EIRP (183.5 pF)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>1.00 MHz</strong> (AM Broadcast)</td>
+                  <td><strong style="color:var(--teal-dark);">−87.1 dB</strong> (|X_c| = 4,611 Ω)</td>
+                  <td>−33.4 dB (|X_c| = 225 Ω)</td>
+                  <td><strong>−34.7 dB</strong> (|X_c| = 867 Ω)</td>
+                </tr>
+                <tr>
+                  <td><strong>3.65 MHz</strong> (80m Band)</td>
+                  <td>−48.8 dB</td>
+                  <td>−18.6 dB</td>
+                  <td>−19.7 dB</td>
+                </tr>
+                <tr class="row-shared">
+                  <td><strong>7.10 MHz</strong> (40m Band)</td>
+                  <td>−20.5 dB</td>
+                  <td><strong style="color:var(--emerald-dark);">−0.0 dB (Passband)</strong></td>
+                  <td><strong style="color:var(--emerald-dark);">−0.1 dB (Passband)</strong></td>
+                </tr>
+                <tr>
+                  <td><strong>14.15 MHz</strong> (20m Band)</td>
+                  <td>−35.5 dB</td>
+                  <td>−30.8 dB</td>
+                  <td>−10.9 dB</td>
+                </tr>
+                <tr class="row-peak">
+                  <td><strong>18.12 MHz</strong> (17m Band)</td>
+                  <td><strong style="color:var(--emerald-dark);">−0.1 dB (Passband)</strong></td>
+                  <td>−9.3 dB</td>
+                  <td>−5.3 dB</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         TAB 4: 80m MID-WAY LOADED CONFIGURATIONS (<13 m)
+         ===================================================================== -->
+    <section id="tab4" class="tab-panel">
+      <div class="slide-banner teal">
+        <div>
+          <h2>Tab 4 — 80m Mid-Way Loaded Configurations (&lt;13 m Vertical at 3.650 MHz)</h2>
+          <div class="banner-sub">Intentionally over-loading a mid-height coil replicates the stretched-40m principle on 80m: elevating the current belly, boosting R_rad, and eliminating any base inductor.</div>
+        </div>
+        <span class="badge badge-teal">Zero Base Coil · Reuse Box 3</span>
+      </div>
+
+      <!-- Theoretical Intro -->
+      <div class="callout teal">
+        <h4>Electrical Principle — Over-Loaded Mid-Height Inductance + Base Series Capacitance</h4>
+        <p>On 80m (λ = 82.135 m at 3.650 MHz), a vertical mast under 13 m is electrically short (~0.14λ–0.15λ). Placing an inductor at mid-height lifts the high-current belly upward, roughly doubling radiation resistance compared to base loading. Making that mid-way coil <strong>slightly larger than resonant</strong> (40.0 µH vs. 30.1 µH on 12.50 m) pushes the current distribution even closer to a stretched quarter-wave: base impedance lands near <strong>R_in ≈ 47 Ω + j235 Ω</strong> on hillside rock, so a <strong>single base series capacitor cancels +jX straight into ~1.1:1 SWR with zero base coil</strong>.</p>
+      </div>
+
+      <!-- Comparison Table vs Resonant Baseline -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Table 4.1 — 80m (&lt;13 m) Mid-Loaded Test Configurations vs. Resonant Direct-Feed Baseline (3.650 MHz)</div>
+          <span class="badge badge-navy">Method-of-Moments · Q_coil = 200</span>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>80m Configuration</th>
+                <th>Height / Coil Pos.</th>
+                <th>Mid-Way Coil</th>
+                <th class="text-col">Base Series C (No Base Coil)</th>
+                <th>SWR (5 / 15 / 30 Ω)</th>
+                <th>2:1 BW (15 Ω)</th>
+                <th>Net EIRP (5 / 15 / 30 Ω)</th>
+                <th>Mid-Coil V_pk (20W / 80W)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="row-peak">
+                <td><strong>Option 1 — Crown Jewel</strong> <span class="inline-tag tag-crimson">Reuse Box 3</span></td>
+                <td>12.50 m / 6.25 m</td>
+                <td><strong>40.0 µH</strong></td>
+                <td class="text-col"><strong>87.1 ∥ 96.39 = 183.49 pF</strong> (Box 3 untouched)</td>
+                <td>1.37 / <strong>1.09:1</strong> / 1.24</td>
+                <td>73 kHz</td>
+                <td>+3.21 / <strong>+2.27</strong> / +1.02 dBi</td>
+                <td>965 V / 1,929 V (1.49 A)</td>
+              </tr>
+              <tr class="row-shared">
+                <td><strong>Option 2 — Shared 11.35 m</strong> <span class="inline-tag tag-blue">Box 3 Wire</span></td>
+                <td>11.35 m / 5.67 m</td>
+                <td><strong>45.0 µH</strong></td>
+                <td class="text-col"><strong>100.02 ∥ 103.91 = 203.93 pF</strong> (disjoint 6.3 kV)</td>
+                <td>1.56 / <strong>1.19:1</strong> / 1.17</td>
+                <td>65 kHz</td>
+                <td>+2.73 / <strong>+1.74</strong> / +0.44 dBi</td>
+                <td>1,126 V / 2,252 V (1.54 A)</td>
+              </tr>
+              <tr class="row-classic">
+                <td><em>Baseline — Resonant Direct Feed</em></td>
+                <td>12.50 m / 6.25 m</td>
+                <td>30.1 µH</td>
+                <td class="text-col">Direct 50 Ω Feed (No Series C, No Base Coil)</td>
+                <td>1.85 / 1.35:1 / 1.04</td>
+                <td>105 kHz</td>
+                <td>+2.96 / +1.90 / +0.52 dBi</td>
+                <td>—</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Detailed Cards for Option 1 & Option 2 -->
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">80m Option 1 — Crown Jewel (12.50 m + 40.0 µH + Box 3)</div>
+            <span class="badge badge-crimson">+2.27 dBi · 1.09:1 SWR</span>
+          </div>
+          <div class="card-body">
+            <ul class="clean-list">
+              <li><strong>Zero New Base Matching Hardware:</strong> Reuses <strong>Box 3 (87.1 ∥ 96.39 = 183.49 pF)</strong> untouched — moving directly from 40m Max-EIRP (11.35 m, no coil) to 80m Max-EIRP (12.50 m, 40.0 µH mid-coil) with zero base inductor.</li>
+              <li><strong>Beats Resonant Direct-Feed by +0.37 dB:</strong> Delivers <strong>+2.27 dBi</strong> vs. +1.90 dBi on hillside rock (+3.21 dBi @ 5 Ω; +1.02 dBi @ 30 Ω) while dropping hillside SWR from 1.35:1 to <strong>1.09:1</strong> (1.37:1 @ 5 Ω; 1.24:1 @ 30 Ω).</li>
+              <li><strong>KCO-13 Reactive Loading:</strong> At <strong>20 W digital</strong>, the larger 96.39 pF capacitor sees only <strong>53.4 VAR</strong> (36% of its 150 VAR continuous GOST rating); at <strong>80 W SSB</strong>, peak capacitor voltage is <strong>439 V</strong> (~53 VAR average).</li>
+              <li><strong>Bandwidth &amp; Mid-Coil Electrical Trade-Off:</strong> Raising R_rad shrinks 2:1 SWR bandwidth from 105 kHz to <strong>73 kHz</strong> — covering either the CW/digital segment (3.550–3.620 MHz) or the SSB segment (3.620–3.695 MHz) via a 2–3 turn coil tap. Mid-coil peak RF voltage reaches <strong>965 V @ 20 W</strong> and <strong>1,929 V @ 80 W SSB</strong> (1.49 A RMS).</li>
+              <li><strong>Alpine Rock Radials:</strong> <strong>2 × 19.40 m</strong> (existing 2 × 10.00 m 40m radials + 9.40 m extensions).</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">80m Option 2 — Shared 11.35 m Wire (11.35 m + 45.0 µH + 203.93 pF)</div>
+            <span class="badge badge-blue">+1.74 dBi · 1.19:1 SWR</span>
+          </div>
+          <div class="card-body">
+            <ul class="clean-list">
+              <li><strong>Exact Shared Box 3 Wire Length (11.35 m):</strong> Keeps the vertical wire unchanged from 40m Max-EIRP, inserting a <strong>45.0 µH</strong> mid-way coil at 5.67 m with zero base coil.</li>
+              <li><strong>Balanced Disjoint KCO-13 Pair:</strong> Uses two unassigned 6.3 kV blocks — <strong>100.02 ∥ 103.91 = 203.93 pF</strong> — splitting reactive RF current evenly in half (<strong>~49 VAR per cap</strong> at 20 W digital instead of 97 VAR onto a single 211.2 pF block).</li>
+              <li><strong>SWR &amp; Bandwidth:</strong> Hillside SWR is <strong>1.19:1</strong> (1.56:1 @ 5 Ω; 1.17:1 @ 30 Ω), with a <strong>65 kHz</strong> 2:1 SWR bandwidth.</li>
+              <li><strong>Height vs. EIRP &amp; Voltage Trade-Off:</strong> Staying at 11.35 m instead of 12.50 m costs <strong>−0.53 dB</strong> of net EIRP (<strong>+1.74 dBi</strong> @ 15 Ω; +2.73 dBi @ 5 Ω; +0.44 dBi @ 30 Ω) and raises mid-coil peak RF voltage to <strong>1,126 V @ 20 W</strong> and <strong>2,252 V @ 80 W SSB</strong> (1.54 A RMS).</li>
+              <li><strong>Alpine Rock Radials:</strong> <strong>2 × 19.40 m</strong> (existing 2 × 10.00 m 40m radials + 9.40 m extensions).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Two Crisp SVG Single-Line Circuit Diagrams Side by Side -->
+      <div class="grid-2">
+        <div class="circuit-card" id="tab4-svg-80opt1"></div>
+        <div class="circuit-card" id="tab4-svg-80opt2"></div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         TAB 5: ALL 5 CIRCUIT LINE DIAGRAMS (MASTER REFERENCE SHEET)
+         ===================================================================== -->
+    <section id="tab5" class="tab-panel">
+      <div class="slide-banner">
+        <div>
+          <h2>Tab 5 — Master Reference Sheet: All 5 Single-Line Electrical Schematics</h2>
+          <div class="banner-sub">Complete evolutionary architecture from 17m 5/8λ Topology 3 → 40m Series-C Stretched 1/4λ → 80m Over-Loaded Mid-Way Vertical (&lt;13 m)</div>
+        </div>
+        <div style="display:flex;gap:7px;flex-wrap:wrap;">
+          <span class="badge badge-crimson">Red: Hot RF Path</span>
+          <span class="badge badge-teal">Teal: Inductors</span>
+          <span class="badge badge-navy">Navy: Ground &amp; Radials</span>
+        </div>
+      </div>
+
+      <!-- 3-Top Row: Box 1 (17m), Box 2 (40m Shared), Box 3 (40m Max-EIRP) -->
+      <div class="master-row-top">
+        <div class="circuit-card" id="master-svg-box1"></div>
+        <div class="circuit-card" id="master-svg-box2"></div>
+        <div class="circuit-card" id="master-svg-box3"></div>
+      </div>
+
+      <!-- 2-Bottom Row: 80m Option 1 & 80m Option 2 -->
+      <div class="master-row-bottom">
+        <div class="circuit-card" id="master-svg-80opt1"></div>
+        <div class="circuit-card" id="master-svg-80opt2"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =======================================================================
+       PURE JAVASCRIPT: TAB ROUTING, VIEW-ALL MODE & CRISP SVG SCHEMATIC ENGINE
+       ======================================================================= -->
+  <script>
+    (function () {
+      "use strict";
+
+      /* ---------------------------------------------------------------------
+         1. CIRCUIT METADATA FOR ALL 5 CONFIGURATIONS
+         --------------------------------------------------------------------- */
+      const CIRCUITS = {
+        box1: {
+          title: "Box 1 — 17m Dedicated 5/8λ (Topo 3)",
+          subtitle: "18.118 MHz · Series C + Shunt L",
+          badgeText: "17m Optimal",
+          badgeClass: "badge-teal",
+          pills: [
+            { k: "Band", v: "17m (18.118 MHz)" },
+            { k: "Radiator", v: "10.35 m (0.645λ)" },
+            { k: "Series C", v: "14.55 ∥ 19.97 = 34.52 pF", cls: "hi-red" },
+            { k: "Shunt L", v: "1.37 µH (1.67 µH coil)", cls: "hi-teal" },
+            { k: "Radials", v: "2 × 3.91 m" },
+            { k: "SWR (15Ω)", v: "1.07:1", cls: "hi-emerald" },
+            { k: "Net EIRP (15Ω)", v: "+7.27 dBi (+8.17 D_hor)", cls: "hi-emerald" }
+          ]
+        },
+        box2: {
+          title: "Box 2 — 40m Shared Wire (Series C Only)",
+          subtitle: "7.100 MHz · Shared 10.35 m Wire · No Base Coil",
+          badgeText: "40m Shared",
+          badgeClass: "badge-blue",
+          pills: [
+            { k: "Band", v: "40m (7.100 MHz)" },
+            { k: "Radiator", v: "10.35 m (0.253λ)" },
+            { k: "Series C", v: "334.8 ∥ 373.7 = 708.5 pF", cls: "hi-red" },
+            { k: "Inductor", v: "None (0% coil loss)" },
+            { k: "Radials", v: "2 × 10.00 m (9.98 m)" },
+            { k: "SWR (15Ω)", v: "1.05–1.06:1", cls: "hi-emerald" },
+            { k: "Net EIRP (15Ω)", v: "+3.71 dBi", cls: "hi-emerald" }
+          ]
+        },
+        box3: {
+          title: "Box 3 — 40m Dedicated Max-EIRP (Series C Only)",
+          subtitle: "7.100 MHz · 11.35 m (10.35 + 1.00 m) · No Base Coil",
+          badgeText: "40m Max-EIRP",
+          badgeClass: "badge-crimson",
+          pills: [
+            { k: "Band", v: "40m (7.100 MHz)" },
+            { k: "Radiator", v: "11.35 m (0.277λ)" },
+            { k: "Series C", v: "87.1 ∥ 96.39 = 183.49 pF", cls: "hi-red" },
+            { k: "Inductor", v: "None (0% coil loss)" },
+            { k: "Radials", v: "2 × 10.00 m (9.98 m)" },
+            { k: "SWR (15Ω)", v: "1.31:1 (1.11 @ 5Ω)", cls: "hi-emerald" },
+            { k: "Net EIRP (15Ω)", v: "+4.02 dBi (+4.83 @ 5Ω)", cls: "hi-emerald" }
+          ]
+        },
+        opt1_80: {
+          title: "80m Option 1 — Crown Jewel (Reuses Box 3)",
+          subtitle: "3.650 MHz · 12.50 m + 40.0 µH Mid-Coil · No Base Coil",
+          badgeText: "80m Max-EIRP",
+          badgeClass: "badge-crimson",
+          pills: [
+            { k: "Band", v: "80m (3.650 MHz)" },
+            { k: "Radiator", v: "12.50 m (6.25 + 6.25 m)" },
+            { k: "Mid-Coil", v: "40.0 µH @ 6.25 m", cls: "hi-teal" },
+            { k: "Base C", v: "87.1 ∥ 96.39 = 183.49 pF (Box 3)", cls: "hi-red" },
+            { k: "Base L", v: "None" },
+            { k: "Radials", v: "2 × 19.40 m" },
+            { k: "SWR (15Ω)", v: "1.09:1 (73 kHz BW)", cls: "hi-emerald" },
+            { k: "Net EIRP (15Ω)", v: "+2.27 dBi (+3.21 @ 5Ω)", cls: "hi-emerald" }
+          ]
+        },
+        opt2_80: {
+          title: "80m Option 2 — Shared 11.35 m Wire",
+          subtitle: "3.650 MHz · 11.35 m + 45.0 µH Mid-Coil · No Base Coil",
+          badgeText: "80m Shared Wire",
+          badgeClass: "badge-blue",
+          pills: [
+            { k: "Band", v: "80m (3.650 MHz)" },
+            { k: "Radiator", v: "11.35 m (5.67 + 5.68 m)" },
+            { k: "Mid-Coil", v: "45.0 µH @ 5.67 m", cls: "hi-teal" },
+            { k: "Base C", v: "100.02 ∥ 103.91 = 203.93 pF", cls: "hi-red" },
+            { k: "Base L", v: "None" },
+            { k: "Radials", v: "2 × 19.40 m" },
+            { k: "SWR (15Ω)", v: "1.19:1 (65 kHz BW)", cls: "hi-emerald" },
+            { k: "Net EIRP (15Ω)", v: "+1.74 dBi (+2.73 @ 5Ω)", cls: "hi-emerald" }
+          ]
+        }
+      };
+
+      /* ---------------------------------------------------------------------
+         2. SHARED VECTOR SYMBOL HELPERS (ZERO OVERLAP GUARANTEED)
+         --------------------------------------------------------------------- */
+
+      /** Draws a horizontal parallel-capacitor bank (2 parallel KCO-13 plates) */
+      function drawParallelCapBank(x1, x2, yMid, labelTop, labelBot, totalLabel) {
+        const xm = (x1 + x2) / 2;
+        const yTop = yMid - 20;
+        const yBot = yMid + 20;
+        const plateGap = 10;
+        const plateH = 12;
+
+        return `
+          <!-- Branch split & rejoin -->
+          <line x1="${x1}" y1="${yMid}" x2="${x1 + 14}" y2="${yMid}" stroke="#dc2626" stroke-width="2.6"/>
+          <circle cx="${x1 + 14}" cy="${yMid}" r="3.2" fill="#dc2626"/>
+          <polyline points="${x1 + 14},${yTop} ${x1 + 14},${yBot}" fill="none" stroke="#dc2626" stroke-width="2.2"/>
+          <line x1="${x1 + 14}" y1="${yTop}" x2="${xm - plateGap / 2}" y2="${yTop}" stroke="#dc2626" stroke-width="2.2"/>
+          <line x1="${x1 + 14}" y1="${yBot}" x2="${xm - plateGap / 2}" y2="${yBot}" stroke="#dc2626" stroke-width="2.2"/>
+
+          <!-- Top Cap Plates -->
+          <line x1="${xm - plateGap / 2}" y1="${yTop - plateH}" x2="${xm - plateGap / 2}" y2="${yTop + plateH}" stroke="#dc2626" stroke-width="3"/>
+          <line x1="${xm + plateGap / 2}" y1="${yTop - plateH}" x2="${xm + plateGap / 2}" y2="${yTop + plateH}" stroke="#dc2626" stroke-width="3"/>
+
+          <!-- Bottom Cap Plates -->
+          <line x1="${xm - plateGap / 2}" y1="${yBot - plateH}" x2="${xm - plateGap / 2}" y2="${yBot + plateH}" stroke="#dc2626" stroke-width="3"/>
+          <line x1="${xm + plateGap / 2}" y1="${yBot - plateH}" x2="${xm + plateGap / 2}" y2="${yBot + plateH}" stroke="#dc2626" stroke-width="3"/>
+
+          <!-- Rejoin right -->
+          <line x1="${xm + plateGap / 2}" y1="${yTop}" x2="${x2 - 14}" y2="${yTop}" stroke="#dc2626" stroke-width="2.2"/>
+          <line x1="${xm + plateGap / 2}" y1="${yBot}" x2="${x2 - 14}" y2="${yBot}" stroke="#dc2626" stroke-width="2.2"/>
+          <polyline points="${x2 - 14},${yTop} ${x2 - 14},${yBot}" fill="none" stroke="#dc2626" stroke-width="2.2"/>
+          <circle cx="${x2 - 14}" cy="${yMid}" r="3.2" fill="#dc2626"/>
+          <line x1="${x2 - 14}" y1="${yMid}" x2="${x2}" y2="${yMid}" stroke="#dc2626" stroke-width="2.6"/>
+
+          <!-- Clean non-overlapping labels -->
+          <text x="${xm}" y="${yTop - 17}" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" font-weight="800" fill="#991b1b">${labelTop}</text>
+          <text x="${xm}" y="${yBot + 25}" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" font-weight="800" fill="#991b1b">${labelBot}</text>
+          <rect x="${xm - 56}" y="${yBot + 32}" width="112" height="19" rx="5" fill="#fef2f2" stroke="#fecaca" stroke-width="1"/>
+          <text x="${xm}" y="${yBot + 45}" text-anchor="middle" font-family="ui-monospace,monospace" font-size="10.5" font-weight="800" fill="#b91c1c">${totalLabel}</text>
+        `;
+      }
+
+      /** Draws a vertical looped inductor coil in engineering teal */
+      function drawVerticalCoil(x, yTop, yBot, loops) {
+        const len = yBot - yTop;
+        const step = len / loops;
+        let d = `M ${x} ${yTop} `;
+        for (let i = 0; i < loops; i++) {
+          const y0 = yTop + i * step;
+          const y1 = y0 + step;
+          d += `C ${x + 15} ${y0 + step * 0.1}, ${x + 15} ${y1 - step * 0.1}, ${x} ${y1} `;
+        }
+        return `<path d="${d}" fill="none" stroke="#0d9488" stroke-width="2.8" stroke-linecap="round"/>`;
+      }
+
+      /** Draws a clean 50 Ohm Coax source block on the left */
+      function drawCoaxSource(xRight, yHot, yGnd) {
+        const yMid = (yHot + yGnd) / 2;
+        return `
+          <!-- Coax Outer Jacket Representation -->
+          <rect x="14" y="${yMid - 30}" width="64" height="60" rx="8" fill="#f8fafc" stroke="#334155" stroke-width="1.8"/>
+          <circle cx="46" cy="${yMid - 4}" r="13" fill="#ffffff" stroke="#1e293b" stroke-width="2.2"/>
+          <circle cx="46" cy="${yMid - 4}" r="4.2" fill="#dc2626"/>
+          <text x="46" y="${yMid + 22}" text-anchor="middle" font-family="ui-monospace,monospace" font-size="10.5" font-weight="800" fill="#0f172a">50 Ω COAX</text>
+
+          <!-- Center Conductor Line (Red) -->
+          <polyline points="78,${yHot} ${xRight},${yHot}" fill="none" stroke="#dc2626" stroke-width="2.6"/>
+          <text x="84" y="${yHot - 7}" font-family="sans-serif" font-size="9.5" font-weight="800" fill="#b91c1c">Center</text>
+
+          <!-- Shield Line (Navy) -->
+          <polyline points="78,${yGnd} ${xRight},${yGnd}" fill="none" stroke="#1e293b" stroke-width="2.6"/>
+          <text x="84" y="${yGnd + 15}" font-family="sans-serif" font-size="9.5" font-weight="800" fill="#334155">Shield / GND</text>
+        `;
+      }
+
+      /** Draws 2 Alpine Rock Radials angling down/out from ground bus node */
+      function drawRadials(xNode, yGnd, radialLabel) {
+        return `
+          <circle cx="${xNode}" cy="${yGnd}" r="4.2" fill="#1e293b"/>
+          <!-- Ground vertical drop -->
+          <line x1="${xNode}" y1="${yGnd}" x2="${xNode}" y2="${yGnd + 14}" stroke="#1e293b" stroke-width="2.4"/>
+          <!-- Left & Right Radials -->
+          <line x1="${xNode}" y1="${yGnd + 14}" x2="${xNode - 82}" y2="${yGnd + 42}" stroke="#1e293b" stroke-width="2.4" stroke-linecap="round"/>
+          <line x1="${xNode}" y1="${yGnd + 14}" x2="${xNode + 82}" y2="${yGnd + 42}" stroke="#1e293b" stroke-width="2.4" stroke-linecap="round"/>
+          <!-- End Arrows -->
+          <polygon points="${xNode - 86},${yGnd + 43.5} ${xNode - 75},${yGnd + 35.5} ${xNode - 78},${yGnd + 44.5}" fill="#1e293b"/>
+          <polygon points="${xNode + 86},${yGnd + 43.5} ${xNode + 75},${yGnd + 35.5} ${xNode + 78},${yGnd + 44.5}" fill="#1e293b"/>
+          <!-- Ground Hash Symbol -->
+          <line x1="${xNode - 14}" y1="${yGnd + 28}" x2="${xNode + 14}" y2="${yGnd + 28}" stroke="#64748b" stroke-width="1.8"/>
+          <line x1="${xNode - 9}" y1="${yGnd + 33}" x2="${xNode + 9}" y2="${yGnd + 33}" stroke="#64748b" stroke-width="1.6"/>
+          <line x1="${xNode - 4}" y1="${yGnd + 38}" x2="${xNode + 4}" y2="${yGnd + 38}" stroke="#64748b" stroke-width="1.4"/>
+          <!-- Radial Label Pill -->
+          <rect x="${xNode - 90}" y="${yGnd + 48}" width="180" height="22" rx="6" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1.1"/>
+          <text x="${xNode}" y="${yGnd + 63}" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" font-weight="800" fill="#0f172a">Radials: ${radialLabel}</text>
+        `;
+      }
+
+      /* ---------------------------------------------------------------------
+         3. INDIVIDUAL SCHEMATIC BUILDERS (VIEWBOX 540 × 310)
+         --------------------------------------------------------------------- */
+      function buildCircuitSVG(id) {
+        const W = 540;
+        const H = 315;
+        const yHot = 152;
+        const yGnd = 232;
+
+        if (id === "box1") {
+          // Box 1: 17m 5/8λ Topology 3 (Series C + Shunt L)
+          const xAnt = 408;
+          const xCoil = 304;
+          return `
+            <svg class="circuit-svg" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
+              <rect x="0" y="0" width="${W}" height="${H}" fill="#ffffff"/>
+              ${drawCoaxSource(128, yHot, yGnd)}
+              ${drawParallelCapBank(128, 256, yHot, "14.55 pF (KCO-13)", "19.97 pF (KCO-13)", "C_ser = 34.52 pF")}
+
+              <!-- Hot Bus from Cap to Antenna Node -->
+              <line x1="256" y1="${yHot}" x2="${xAnt}" y2="${yHot}" stroke="#dc2626" stroke-width="2.6"/>
+              <circle cx="${xCoil}" cy="${yHot}" r="3.8" fill="#0d9488"/>
+              <circle cx="${xAnt}" cy="${yHot}" r="4.2" fill="#dc2626"/>
+
+              <!-- Tapped Shunt Coil (Teal) from Antenna Hot Node to Ground Bus -->
+              <line x1="${xCoil}" y1="${yHot}" x2="${xCoil}" y2="${yHot + 12}" stroke="#0d9488" stroke-width="2.5"/>
+              ${drawVerticalCoil(xCoil, yHot + 12, yGnd - 10, 5)}
+              <line x1="${xCoil}" y1="${yGnd - 10}" x2="${xCoil}" y2="${yGnd}" stroke="#0d9488" stroke-width="2.5"/>
+              <circle cx="${xCoil}" cy="${yGnd}" r="3.8" fill="#1e293b"/>
+
+              <!-- Tap Arrow on Shunt Coil -->
+              <polyline points="${xCoil - 19},${yHot + 20} ${xCoil - 3},${yHot + 20}" fill="none" stroke="#0f766e" stroke-width="2"/>
+              <polygon points="${xCoil - 1},${yHot + 20} ${xCoil - 8},${yHot + 16} ${xCoil - 8},${yHot + 24}" fill="#0f766e"/>
+
+              <!-- Shunt Coil Labels -->
+              <rect x="${xCoil + 20}" y="${yHot + 18}" width="114" height="48" rx="6" fill="#f0fdfa" stroke="#99f6e4" stroke-width="1.2"/>
+              <text x="${xCoil + 77}" y="${yHot + 34}" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11" font-weight="800" fill="#0f766e">Shunt L = 1.37 µH</text>
+              <text x="${xCoil + 77}" y="${yHot + 48}" text-anchor="middle" font-family="sans-serif" font-size="9.5" font-weight="700" fill="#115e59">(1.67 µH Bare Coil)</text>
+              <text x="${xCoil + 77}" y="${yHot + 60}" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="700" fill="#0d9488">Topology 3 High-Pass</text>
+
+              <!-- Ground Bus extending to Antenna Base -->
+              <line x1="128" y1="${yGnd}" x2="${xAnt}" y2="${yGnd}" stroke="#1e293b" stroke-width="2.6"/>
+
+              <!-- Vertical 10.35 m Radiator -->
+              <line x1="${xAnt}" y1="${yHot}" x2="${xAnt}" y2="24" stroke="#dc2626" stroke-width="3.6" stroke-linecap="round"/>
+              <polygon points="${xAnt},16 ${xAnt - 7},30 ${xAnt + 7},30" fill="#dc2626"/>
+              <!-- Antenna Feedpoint Label -->
+              <rect x="${xAnt + 14}" y="44" width="110" height="58" rx="7" fill="#fef2f2" stroke="#fecaca" stroke-width="1.2"/>
+              <text x="${xAnt + 69}" y="62" text-anchor="middle" font-family="ui-monospace,monospace" font-size="12" font-weight="800" fill="#991b1b">10.35 m</text>
+              <text x="${xAnt + 69}" y="77" text-anchor="middle" font-family="ui-monospace,monospace" font-size="10.2" font-weight="700" fill="#b91c1c">0.645λ (5/8λ)</text>
+              <text x="${xAnt + 69}" y="92" text-anchor="middle" font-family="sans-serif" font-size="9.5" font-weight="700" fill="#7f1d1d">Vertical Radiator</text>
+
+              <!-- 2 Radials -->
+              ${drawRadials(xAnt, yGnd, "2 × 3.91 m (17m Rock)")}
+            </svg>
+          `;
+        }
+
+        if (id === "box2" || id === "box3") {
+          const isBox2 = id === "box2";
+          const xAnt = 396;
+          const cap1 = isBox2 ? "334.8 pF (5 kV)" : "87.1 pF (6.3 kV)";
+          const cap2 = isBox2 ? "373.7 pF (5 kV)" : "96.39 pF (6.3 kV)";
+          const cTot = isBox2 ? "C_ser = 708.5 pF" : "C_ser = 183.49 pF";
+          const radLen = isBox2 ? "10.35 m" : "11.35 m";
+          const radSub = isBox2 ? "0.253λ (Shared)" : "0.277λ (10.35+1m)";
+          const zNote = isBox2 ? "37.7 + j31.0 Ω" : "50.3 + j121.7 Ω";
+          const boxAccent = isBox2 ? "#2563eb" : "#dc2626";
+          const boxBg = isBox2 ? "#eff6ff" : "#fef2f2";
+          const boxBorder = isBox2 ? "#bfdbfe" : "#fecaca";
+
+          return `
+            <svg class="circuit-svg" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
+              <rect x="0" y="0" width="${W}" height="${H}" fill="#ffffff"/>
+              ${drawCoaxSource(128, yHot, yGnd)}
+              ${drawParallelCapBank(128, 272, yHot, cap1, cap2, cTot)}
+
+              <!-- Direct Hot Line to Vertical Antenna -->
+              <line x1="272" y1="${yHot}" x2="${xAnt}" y2="${yHot}" stroke="#dc2626" stroke-width="2.6"/>
+              <circle cx="${xAnt}" cy="${yHot}" r="4.2" fill="#dc2626"/>
+
+              <!-- Explicit "No Base Inductor" Callout between Hot & Ground -->
+              <rect x="284" y="${yHot + 20}" width="100" height="40" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.2" stroke-dasharray="4,3"/>
+              <text x="334" y="${yHot + 37}" text-anchor="middle" font-family="sans-serif" font-size="10.2" font-weight="800" fill="#475569">NO BASE</text>
+              <text x="334" y="${yHot + 51}" text-anchor="middle" font-family="sans-serif" font-size="10.2" font-weight="800" fill="#475569">INDUCTOR</text>
+
+              <!-- Ground Bus -->
+              <line x1="128" y1="${yGnd}" x2="${xAnt}" y2="${yGnd}" stroke="#1e293b" stroke-width="2.6"/>
+
+              <!-- Vertical Radiator -->
+              <line x1="${xAnt}" y1="${yHot}" x2="${xAnt}" y2="24" stroke="#dc2626" stroke-width="3.6" stroke-linecap="round"/>
+              <polygon points="${xAnt},16 ${xAnt - 7},30 ${xAnt + 7},30" fill="#dc2626"/>
+
+              <!-- Antenna Specs Box -->
+              <rect x="${xAnt + 14}" y="38" width="122" height="72" rx="7" fill="${boxBg}" stroke="${boxBorder}" stroke-width="1.3"/>
+              <text x="${xAnt + 75}" y="57" text-anchor="middle" font-family="ui-monospace,monospace" font-size="12.5" font-weight="800" fill="${boxAccent}">${radLen}</text>
+              <text x="${xAnt + 75}" y="73" text-anchor="middle" font-family="ui-monospace,monospace" font-size="9.8" font-weight="700" fill="#334155">${radSub}</text>
+              <text x="${xAnt + 75}" y="88" text-anchor="middle" font-family="ui-monospace,monospace" font-size="9.5" font-weight="700" fill="#475569">Raw: ${zNote}</text>
+              <text x="${xAnt + 75}" y="102" text-anchor="middle" font-family="sans-serif" font-size="9" font-weight="700" fill="#64748b">Series-C Only (40m)</text>
+
+              <!-- 2 Radials -->
+              ${drawRadials(xAnt, yGnd, "2 × 10.00 m (40m Rock)")}
+            </svg>
+          `;
+        }
+
+        // 80m Option 1 & Option 2: Mid-Way Loaded Vertical + Base Series C (No Base Inductor)
+        const isOpt1 = id === "opt1_80";
+        const xAnt = 366;
+        const cap1 = isOpt1 ? "87.1 pF (Box 3)" : "100.02 pF (6.3 kV)";
+        const cap2 = isOpt1 ? "96.39 pF (Box 3)" : "103.91 pF (6.3 kV)";
+        const cTot = isOpt1 ? "C_ser = 183.49 pF" : "C_ser = 203.93 pF";
+        const coilVal = isOpt1 ? "40.0 µH" : "45.0 µH";
+        const lowLen = isOpt1 ? "6.25 m" : "5.67 m";
+        const upLen = isOpt1 ? "6.25 m" : "5.68 m";
+        const totLen = isOpt1 ? "12.50 m Total" : "11.35 m Total";
+        const bwTxt = isOpt1 ? "SWR 1.09:1 · 73 kHz" : "SWR 1.19:1 · 65 kHz";
+        const eirpTxt = isOpt1 ? "+2.27 dBi @ 15 Ω" : "+1.74 dBi @ 15 Ω";
+
+        return `
+          <svg class="circuit-svg" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="${W}" height="${H}" fill="#ffffff"/>
+            ${drawCoaxSource(122, yHot, yGnd)}
+            ${drawParallelCapBank(122, 260, yHot, cap1, cap2, cTot)}
+
+            <!-- Hot Bus to Antenna Base -->
+            <line x1="260" y1="${yHot}" x2="${xAnt}" y2="${yHot}" stroke="#dc2626" stroke-width="2.6"/>
+            <circle cx="${xAnt}" cy="${yHot}" r="4.2" fill="#dc2626"/>
+
+            <!-- Explicit "No Base Inductor" Callout -->
+            <rect x="270" y="${yHot + 20}" width="84" height="40" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.2" stroke-dasharray="4,3"/>
+            <text x="312" y="${yHot + 37}" text-anchor="middle" font-family="sans-serif" font-size="9.5" font-weight="800" fill="#475569">NO BASE</text>
+            <text x="312" y="${yHot + 50}" text-anchor="middle" font-family="sans-serif" font-size="9.5" font-weight="800" fill="#475569">INDUCTOR</text>
+
+            <!-- Ground Bus -->
+            <line x1="122" y1="${yGnd}" x2="${xAnt}" y2="${yGnd}" stroke="#1e293b" stroke-width="2.6"/>
+
+            <!-- Lower Vertical Wire Section -->
+            <line x1="${xAnt}" y1="${yHot}" x2="${xAnt}" y2="108" stroke="#dc2626" stroke-width="3.4"/>
+            <text x="${xAnt - 10}" y="134" text-anchor="end" font-family="ui-monospace,monospace" font-size="10.2" font-weight="800" fill="#991b1b">Lower: ${lowLen}</text>
+
+            <!-- Mid-Way Loading Coil (Teal) -->
+            ${drawVerticalCoil(xAnt, 60, 108, 5)}
+            <rect x="${xAnt + 22}" y="58" width="144" height="54" rx="7" fill="#f0fdfa" stroke="#99f6e4" stroke-width="1.3"/>
+            <text x="${xAnt + 94}" y="75" text-anchor="middle" font-family="ui-monospace,monospace" font-size="11.5" font-weight="800" fill="#0f766e">Mid-Coil: ${coilVal}</text>
+            <text x="${xAnt + 94}" y="90" text-anchor="middle" font-family="sans-serif" font-size="9.5" font-weight="700" fill="#115e59">Over-Loaded @ ${lowLen}</text>
+            <text x="${xAnt + 94}" y="104" text-anchor="middle" font-family="ui-monospace,monospace" font-size="9.3" font-weight="700" fill="#0d9488">${bwTxt}</text>
+
+            <!-- Upper Vertical Wire Section -->
+            <line x1="${xAnt}" y1="60" x2="${xAnt}" y2="18" stroke="#dc2626" stroke-width="3.4" stroke-linecap="round"/>
+            <polygon points="${xAnt},10 ${xAnt - 7},24 ${xAnt + 7},24" fill="#dc2626"/>
+            <text x="${xAnt - 10}" y="42" text-anchor="end" font-family="ui-monospace,monospace" font-size="10.2" font-weight="800" fill="#991b1b">Upper: ${upLen}</text>
+
+            <!-- Total Height & EIRP Badge at Top Right -->
+            <rect x="${xAnt + 22}" y="14" width="144" height="36" rx="6" fill="#fef2f2" stroke="#fecaca" stroke-width="1.2"/>
+            <text x="${xAnt + 94}" y="29" text-anchor="middle" font-family="ui-monospace,monospace" font-size="10.8" font-weight="800" fill="#991b1b">${totLen} (80m)</text>
+            <text x="${xAnt + 94}" y="43" text-anchor="middle" font-family="ui-monospace,monospace" font-size="9.8" font-weight="800" fill="#065f46">${eirpTxt}</text>
+
+            <!-- 2 Radials -->
+            ${drawRadials(xAnt, yGnd, "2 × 19.40 m (80m Rock)")}
+          </svg>
+        `;
+      }
+
+      /** Renders a complete Circuit Card (Header + SVG + Spec Pill Strip) into a host element */
+      function mountCircuitCard(hostId, circuitId) {
+        const host = document.getElementById(hostId);
+        const cfg = CIRCUITS[circuitId];
+        if (!host || !cfg) return;
+
+        const pillsHtml = cfg.pills
+          .map(p => `<span class="spec-pill ${p.cls || ""}"><span class="k">${p.k}:</span> ${p.v}</span>`)
+          .join("");
+
+        host.innerHTML = `
+          <div class="card-header">
+            <div>
+              <div class="card-title">${cfg.title}</div>
+              <div class="card-subtitle">${cfg.subtitle}</div>
+            </div>
+            <span class="badge ${cfg.badgeClass}">${cfg.badgeText}</span>
+          </div>
+          <div class="circuit-stage">${buildCircuitSVG(circuitId)}</div>
+          <div class="pill-strip">${pillsHtml}</div>
+        `;
+      }
+
+      /* ---------------------------------------------------------------------
+         4. MOUNT ALL SCHEMATICS & WIRE NAVIGATION / VIEW-ALL CONTROLS
+         --------------------------------------------------------------------- */
+      function initApp() {
+        try {
+          // Tab 1 SVGs (Box 2 & Box 3)
+          mountCircuitCard("tab1-svg-box2", "box2");
+          mountCircuitCard("tab1-svg-box3", "box3");
+
+          // Tab 2 SVG (Box 1 — 17m Topo 3)
+          mountCircuitCard("tab2-svg-box1", "box1");
+
+          // Tab 4 SVGs (80m Option 1 & Option 2)
+          mountCircuitCard("tab4-svg-80opt1", "opt1_80");
+          mountCircuitCard("tab4-svg-80opt2", "opt2_80");
+
+          // Tab 5 Master Sheet (All 5 Together)
+          mountCircuitCard("master-svg-box1", "box1");
+          mountCircuitCard("master-svg-box2", "box2");
+          mountCircuitCard("master-svg-box3", "box3");
+          mountCircuitCard("master-svg-80opt1", "opt1_80");
+          mountCircuitCard("master-svg-80opt2", "opt2_80");
+
+          // Tab Switching
+          const tabBtns = document.querySelectorAll("#tabsBar .tab-btn");
+          const panels = document.querySelectorAll(".tab-panel");
+
+          tabBtns.forEach(btn => {
+            btn.addEventListener("click", () => {
+              const target = btn.getAttribute("data-tab");
+              tabBtns.forEach(b => b.classList.toggle("active", b === btn));
+              panels.forEach(p => p.classList.toggle("active", p.id === target));
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            });
+          });
+
+          // View All / Print Mode Toggle
+          const viewAllBtn = document.getElementById("viewAllToggle");
+          const viewAllLbl = document.getElementById("viewAllLabel");
+          const viewAllIcn = document.getElementById("viewAllIcon");
+
+          viewAllBtn.addEventListener("click", () => {
+            const isAll = document.body.classList.toggle("view-all-mode");
+            viewAllBtn.classList.toggle("active", isAll);
+            viewAllBtn.setAttribute("aria-pressed", String(isAll));
+            viewAllLbl.textContent = isAll ? "Return to Tabbed Slides" : "View All / Print Mode";
+            viewAllIcn.textContent = isAll ? "◫" : "▤";
+            if (isAll) {
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+          });
+
+          // Direct Print Button
+          document.getElementById("printBtn").addEventListener("click", () => {
+            window.print();
+          });
+        } catch (err) {
+          console.error("Initialization error in HF Optimization Summary:", err);
+        }
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initApp);
+      } else {
+        initApp();
+      }
+    })();
+  </script>
+</body>
+</html>
