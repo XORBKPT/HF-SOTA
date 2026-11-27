@@ -63,7 +63,7 @@ In **Tab 6**, the single series capacitor acts as a gentle 1st-order high-pass f
 ### 3. Bridge to Modern RF Engineering:
 
 | SOTA Trade-Off (Tabs 6 vs. 7) | Exact Equivalent in Modern Microwave / mmWave Systems | Core Engineering Takeaway |
-| There is no universal "best" antenna—**Tab 6** wins when mast height/wind/pack-weight is the hard constraint; **Tab 7** (and Tab 2: 17m 5/8λ wins when link margin, pileup penetration, and blocker immunity are the mission-critical constraints. |
+| There is no universal "best" antenna—**Tab 6** wins when mast height/wind/pack-weight is the hard constraint; **Tab 7** (and Tab 2: 17m 5/8λ wins when link margin, pileup penetration, and blocker immunity are the key constraints. |
 
 ```python
 import math, cmath
