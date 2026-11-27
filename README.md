@@ -1,17 +1,16 @@
 https://xorbkpt.github.io/HF-SOTA/ 
 
-Field research results for Vertical HF Radio Antennas.
+Vertical HF Radio Antennas (click link for results and optimal circuit configurations).
 
-Summary: KC0-13 Silver Mica 6.3kV Capacitors *in series* with high Q shunt inductors allow portable operation on 20m–10m with 5/8λ antennas at **> +7.2 dBi gain** and low SWRs for SOTA DX SSB CQs (Alpine EU => N. America & Japan).
+**Summary: KC0-13 Silver Mica 6.3kV Capacitors *in series* with high Q shunt inductors allow portable operation on 20m–10m with 5/8λ antennas at **> +7.2 dBi gain** and low SWRs for SOTA DX SSB CQs (Alpine EU => N. America & Japan)**
 
-
-On a dusk EU SOTA summit trying to reach North Carolina or Osaka, it transforms the **transmitter power budget**, the **spatial signal-to-interference ratio (SIR)**, and the **receiver front-end dynamic range** simultaneously.
+On a dusk EU SOTA summit reaching North Carolina or Osaka, the **transmitter power budget**, the **spatial signal-to-interference ratio (SIR)**, and the **receiver front-end dynamic range** are better.
 
 ---
 
 ### 1. Transmitter Reality at Dusk: The 2.1× Power & Threshold Effect
 
-Because decibels are logarithmic, **+3.25 dB** is a **`2.11×` linear power multiplier**:
+Decibels are logarithmic, **+3.25 dB** is a **`2.11×` linear power multiplier**:
 
 * **80 W SSB** into the **5/8λ (Tab 7)** puts the exact same DX signal into the ionosphere as **~169 W** into the stretched 1/4λ (Tab 6).
 * **20 W digital** into the **5/8λ** matches **~42 W** into the stretched 1/4λ.
