@@ -1,7 +1,8 @@
 https://xorbkpt.github.io/HF-SOTA/ 
 
-Vertical HF Radio Antennas *click link for results and optimal antenna circuit configurations*.
-
+---
+### Vertical HF Radio Antennas *click link for results and optimal antenna circuit configurations*.
+---
 **Summary: KC0-13 Silver Mica 6.3kV Capacitors *in series* with high Q shunt inductors allow portable operation on 20m–10m with 5/8λ antennas at **> +7.2 dBi gain** and low SWRs for SOTA DX SSB CQs (Alpine EU => N. America & Japan)**
 
 On a dusk EU SOTA summit reaching North Carolina or Osaka, the **transmitter power budget**, the **spatial signal-to-interference ratio (SIR)**, and the **receiver front-end dynamic range** are better.
@@ -172,7 +173,7 @@ Osaka, Japan (9,295 km):
 
 ```
 Field tests on SSB and Digital will show **link budgets, reciprocity, spatial filtering, and front-end linearity** performance.
-
-###CAUTION When transmitting, high voltages are present on the hot signal conductors !!!###
+---
+### CAUTION When transmitting, high voltages are present on the hot signal conductors !!!
 
 
