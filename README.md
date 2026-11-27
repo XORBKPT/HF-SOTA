@@ -17,13 +17,13 @@ Because decibels are logarithmic, **+3.25 dB** is a **`2.11×` linear power mult
 * **20 W digital** into the **5/8λ** matches **~42 W** into the stretched 1/4λ.
 * Conversely, to equal an **80 W** stretched 1/4λ station, the **5/8λ** requires only **38 W**—cutting summit battery consumption and PA heat generation in half.
 
-**Why dusk / post-sundown magnifies this on SSB:**
-On SSB voice, the transition between *"heard a voice in the static, no copy"* and *"solid 55–57 armchair QSO"* spans only about **6–8 dB** of SNR. As the F2 layer thins near Alpine dusk (15:30–17:00 CET toward North Carolina at **7,177 km**) or opens at grey-line (07:30–09:00 CET toward Osaka at **9,295 km**), multi-hop F2 signals arrive right on that cliff at **3° to 9° elevation**:
+**Post-sundown magnifies this on SSB:**
+On SSB voice, the transition between *"heard a voice in the static, no copy"* and *"solid 55–57 armchair QSO"* spans only about **6–8 dB** of SNR. As the F2 layer thins near Alpine dusk (15:30–17:00 CET toward North Carolina at **7,177 km**) or opens at grey-line (07:30–09:00 CET toward Osaka at **9,295 km**), multi-hop F2 signals arrive on that cliff at **3° to 9° elevation**:
 
 * **North Carolina (7,177 km):** 2-hop grazing ~**1°–4°**, 3-hop F2 ~**8.4°**.
 * **Osaka, Japan (9,295 km):** 3-hop F2 ~**3.7°**, 4-hop F2 ~**8.9°**.
 
-At those exact low angles over real alpine rock ($\varepsilon_r = 5, \sigma = 0.001\text{ S/m}$), the 5/8λ beats the stretched 1/4λ by **+2.2 to +3.1 dB** (rising toward the full **+3.25 dB** when aided by a downhill slope)—and by **reciprocity**, it delivers that advantage on *both* TX and RX. That combined two-way margin is routinely the difference between making a reliable **80 W SSB** contact versus being stuck on FT8/JS8.
+At those low angles over alpine rock ($\varepsilon_r = 5, \sigma = 0.001\text{ S/m}$), the 5/8λ beats the stretched 1/4λ by **+2.2 to +3.1 dB** (rising toward the full **+3.25 dB** when aided by a downhill slope)—and by **reciprocity**, it delivers that advantage on *both* TX and RX. That combined two-way margin is routinely the difference between making a reliable **80 W SSB** contact versus being stuck on FT8/JS8.
 
 ---
 
