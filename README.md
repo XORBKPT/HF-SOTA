@@ -5,9 +5,7 @@
 ---
 ### Summary: KC0-13 Silver Mica 6.3kV Capacitors *in series* with high Q shunt inductors allow portable operation on 20m–10m with 5/8λ antennas at **> +7.2 dBi gain** and low SWRs for SOTA DX SSB CQs
 
-On a dusk EU SOTA summit reaching North Carolina or Osaka, the **transmitter power budget**, the **spatial signal-to-interference ratio (SIR)**, and the **receiver front-end dynamic range** are better.
-
-*click link for results and optimal antenna circuit configurations*
+On a dusk EU SOTA summit reaching North Carolina or Osaka, the **transmitter power budget**, the **spatial signal-to-interference ratio (SIR)**, and the **receiver front-end dynamic range** are better. Click link for results and optimal antenna circuit configurations.
 ---
 ### 1. Transmitter Reality at Dusk: The 2.1× Power & Threshold Effect
 
