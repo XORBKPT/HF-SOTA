@@ -44,7 +44,7 @@ During evaluation of the real-rock elevation patterns on **20m 5/8λ (Tab 7)** v
 | **3° – 8°** | **DX Path (NC & Osaka 2–4 hop)** | −11.5 to −5.3 dBi | −14.7 to −7.8 dBi | **+2.6 to +3.1 dB** *(signal boost)* |
 | **10° – 12°** | **DX Path (High F2 / 3–4 hop)** | −4.3 to −3.9 dBi | −6.5 to −5.6 dBi | **+1.7 to +2.2 dB** *(signal boost)* |
 | **25° – 40°** | **European Single-Hop QRM** *(500–1,500 km)* | **−16.1 to −8.4 dBi** | −3.7 to −3.1 dBi | **−5.3 to −13.0 dB** *(QRM null!)* |
-| **60°** | High-angle sky *(escapes F2 at 14–28 MHz dusk)* | −4.3 dBi | −7.5 dBi | +3.2 dB *(harmless: $f > f_oF_2$)* |
+| **60°** | High-angle sky *(escapes F2 at 14–28 MHz dusk)* | −4.3 dBi | −7.5 dBi | +3.2 dB *(harmless: f > f_oF_2)* |
 
 At dusk, the **5/8λ** does not merely amplify North America and Japan by **+2.5 to +3.1 dB**—it simultaneously carves a **5 to 13 dB elevation null** across **25°–40°**, suppressing strong single-hop European stations from Italy, France, Poland, and the UK. On receiving, that produces an **8 to 15 dB Signal-to-Interference Ratio (SIR)** improvement purely from vertical current distribution.
 
