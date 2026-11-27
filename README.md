@@ -1,6 +1,6 @@
 https://xorbkpt.github.io/HF-SOTA/ 
 
-Vertical HF Radio Antennas (click link for results and optimal circuit configurations).
+Vertical HF Radio Antennas *click link for results and optimal antenna circuit configurations*.
 
 **Summary: KC0-13 Silver Mica 6.3kV Capacitors *in series* with high Q shunt inductors allow portable operation on 20m–10m with 5/8λ antennas at **> +7.2 dBi gain** and low SWRs for SOTA DX SSB CQs (Alpine EU => N. America & Japan)**
 
