@@ -174,4 +174,7 @@ Osaka, Japan (9,295 km):
 ```
 
 
-This testing provided a practical physical intuition for **link budgets, reciprocity, spatial filtering, and front-end linearity**.
+This testing provided practical intuition for **link budgets, reciprocity, spatial filtering, and front-end linearity**.
+
+
+
