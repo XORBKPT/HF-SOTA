@@ -171,8 +171,10 @@ Osaka, Japan (9,295 km):
 
 
 ```
-Testing on SSB and Digital will show **link budgets, reciprocity, spatial filtering, and front-end linearity**, (NanoVNA sweep and Smith Charts to follow).
-***CAUTION*** when building any of the antennas, high voltages are present on Txing on the hot signal conductors!!!
+Testing on SSB and Digital will show **link budgets, reciprocity, spatial filtering, and front-end linearity** performance. NanoVNA sweep and Smith Charts to follow.
 
+###
+***CAUTION*** When transmitting, high voltages are present on the hot signal conductors !!!
+###
 
 
