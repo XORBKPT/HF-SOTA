@@ -3,7 +3,7 @@
 ---
 ## Vertical HF Radio Antennas
 ---
-### Summary: KC0-13 Silver Mica 6.3kV Capacitors *in series* with high Q shunt inductors allow portable operation on 20m–10m with 5/8λ antennas at **> +7.2 dBi gain** and low SWRs for SOTA DX SSB CQs**
+### Summary: KC0-13 Silver Mica 6.3kV Capacitors *in series* with high Q shunt inductors allow portable operation on 20m–10m with 5/8λ antennas at **> +7.2 dBi gain** and low SWRs for SOTA DX SSB CQs
 
 On a dusk EU SOTA summit reaching North Carolina or Osaka, the **transmitter power budget**, the **spatial signal-to-interference ratio (SIR)**, and the **receiver front-end dynamic range** are better.
 
