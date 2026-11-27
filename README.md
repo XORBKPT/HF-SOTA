@@ -1,14 +1,13 @@
-https://xorbkpt.github.io/HF-SOTA/ 
-
 ---
-### Vertical HF Radio Antennas *click link for results and optimal antenna circuit configurations*.
+### https://xorbkpt.github.io/HF-SOTA/ 
+---
+### Vertical HF Radio Antennas * click link for results and optimal antenna circuit configurations*.
 ---
 **Summary: KC0-13 Silver Mica 6.3kV Capacitors *in series* with high Q shunt inductors allow portable operation on 20m–10m with 5/8λ antennas at **> +7.2 dBi gain** and low SWRs for SOTA DX SSB CQs (Alpine EU => N. America & Japan)**
 
 On a dusk EU SOTA summit reaching North Carolina or Osaka, the **transmitter power budget**, the **spatial signal-to-interference ratio (SIR)**, and the **receiver front-end dynamic range** are better.
 
 ---
-
 ### 1. Transmitter Reality at Dusk: The 2.1× Power & Threshold Effect
 
 Decibels are logarithmic, **+3.25 dB** is a **`2.11×` linear power multiplier**:
@@ -23,7 +22,7 @@ On SSB voice, the transition between *"heard a voice in the static, no copy"* an
 * **North Carolina (7,177 km):** 2-hop grazing ~**1°–4°**, 3-hop F2 ~**8.4°**.
 * **Osaka, Japan (9,295 km):** 3-hop F2 ~**3.7°**, 4-hop F2 ~**8.9°**.
 
-At those low angles over alpine rock ($\varepsilon_r = 5, \sigma = 0.001\text{ S/m}$), the 5/8λ beats the stretched 1/4λ by **+2.2 to +3.1 dB** (rising toward the full **+3.25 dB** when aided by a downhill slope)—and by **reciprocity**, it delivers that advantage on *both* TX and RX. That combined two-way margin is routinely the difference between making a reliable **80 W SSB** contact versus being stuck on FT8/JS8.
+At low angles over alpine rock ($\varepsilon_r = 5, \sigma = 0.001\text{ S/m}$), the 5/8λ beats the stretched 1/4λ by **+2.2 to +3.1 dB** (rising toward the full **+3.25 dB** when aided by a downhill slope)—and by **reciprocity**, it delivers that advantage on *both* TX and RX. That combined two-way margin is routinely the difference between making a reliable **80 W SSB** contact versus being stuck on FT8/JS8.
 
 ---
 
@@ -60,7 +59,7 @@ In **Tab 6**, the single series capacitor acts as a gentle 1st-order high-pass f
 
 ---
 
-### 3. Bridge to Modern RF Engineering:
+### 3. RF Engineering:
 
 | SOTA Trade-Off (Tabs 6 vs. 7) |
 | There is no universal "best" antenna—**Tab 6** wins when mast height/wind/pack-weight is the hard constraint; **Tab 7** (and Tab 2: 17m 5/8λ) win when link margin, pileup penetration, and blocker immunity are the key constraints. |
@@ -173,7 +172,6 @@ Osaka, Japan (9,295 km):
 
 ```
 Field tests on SSB and Digital will show **link budgets, reciprocity, spatial filtering, and front-end linearity** performance.
----
-### CAUTION When transmitting, high voltages are present on the hot signal conductors !!!
+### CAUTION!!! When transmitting, high voltages are present on the conductors !!!
 
 
