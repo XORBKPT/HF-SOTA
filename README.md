@@ -2,7 +2,7 @@ https://xorbkpt.github.io/HF-SOTA/
 
 Field research results for Vertical HF Radio Antennas.
 
-Summary: KC0-13 Silver Mica 6.3kV Capacitors *in series* with high Q shunt inductors allows portable band operation 20m–10m 5/8λ with **> +7.2 dBi gain** which means good SSB CQs from the EU to North America and Japan with portable (Li-Poly battery, FT-857, 12m mast) equipment.
+Summary: KC0-13 Silver Mica 6.3kV Capacitors *in series* with high Q shunt inductors allow portable operation on 20m–10m 5/8λ with **> +7.2 dBi gain** for SSB CQs from the EU to North America and Japan with just Li-Poly 14.1v, FT-857, 12m mast.
 
 ```python
 import math, cmath
