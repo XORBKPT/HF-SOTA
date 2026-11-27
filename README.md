@@ -4,6 +4,67 @@ Field research results for Vertical HF Radio Antennas.
 
 Summary: KC0-13 Silver Mica 6.3kV Capacitors *in series* with high Q shunt inductors allow portable operation on 20m–10m 5/8λ with **> +7.2 dBi gain** for SSB CQs from the EU to North America and Japan with just Li-Poly 14.1v, FT-857, 12m mast.
 
+
+On a dusk EU SOTA summit trying to reach North Carolina or Osaka, it transforms the **transmitter power budget**, the **spatial signal-to-interference ratio (SIR)**, and the **receiver front-end dynamic range** simultaneously.
+
+---
+
+### 1. Transmitter Reality at Dusk: The 2.1× Power & Threshold Effect
+
+Because decibels are logarithmic, **+3.25 dB** is a **`2.11×` linear power multiplier**:
+
+* **80 W SSB** into the **5/8λ (Tab 7)** puts the exact same DX signal into the ionosphere as **~169 W** into the stretched 1/4λ (Tab 6).
+* **20 W digital** into the **5/8λ** matches **~42 W** into the stretched 1/4λ.
+* Conversely, to equal an **80 W** stretched 1/4λ station, the **5/8λ** requires only **38 W**—cutting summit battery consumption and PA heat generation in half.
+
+**Why dusk / post-sundown magnifies this on SSB:**
+On SSB voice, the transition between *"heard a voice in the static, no copy"* and *"solid 55–57 armchair QSO"* spans only about **6–8 dB** of SNR. As the F2 layer thins near Alpine dusk (15:30–17:00 CET toward North Carolina at **7,177 km**) or opens at grey-line (07:30–09:00 CET toward Osaka at **9,295 km**), multi-hop F2 signals arrive right on that cliff at **3° to 9° elevation**:
+
+* **North Carolina (7,177 km):** 2-hop grazing ~**1°–4°**, 3-hop F2 ~**8.4°**.
+* **Osaka, Japan (9,295 km):** 3-hop F2 ~**3.7°**, 4-hop F2 ~**8.9°**.
+
+At those exact low angles over real alpine rock ($\varepsilon_r = 5, \sigma = 0.001\text{ S/m}$), the 5/8λ beats the stretched 1/4λ by **+2.2 to +3.1 dB** (rising toward the full **+3.25 dB** when aided by a downhill slope)—and by **reciprocity**, it delivers that advantage on *both* TX and RX. That combined two-way margin is routinely the difference between making a reliable **80 W SSB** contact versus being stuck on FT8/JS8.
+
+---
+
+### 2. Receiver Reality:
+
+#### A. Sensitivity vs. External Noise Floor (Why Gain ≠ Lower Noise Figure on HF)
+
+At 14–21 MHz, external atmospheric and galactic noise ($T_{\text{ant}}$) is typically **10–20 dB hotter** than a modern transceiver's internal thermal noise floor ($T_{\text{rx}}$). If background noise arrived equally from all directions, adding passive antenna gain would boost signal and noise equally.
+
+* *Exception:* On a quiet alpine summit **after sundown on 12m and 10m**, atmospheric noise collapses toward the transceiver's internal thermal floor—here, the 5/8λ's extra **+3.25 dB** aperture *does* directly improve raw thermal SNR, just like a bigger satellite dish.
+
+#### B. Spatial Selectivity (Passive Vertical Beamforming Against European QRM)
+
+During evaluation of the real-rock elevation patterns on **20m 5/8λ (Tab 7)** versus **20m 0.28λ (Tab 6)** a spatial-filtering bonus, that never shows up in a single dBi number, got revealed (I'll post NanoVNA and Smith Charts later):
+
+| Elevation Angle | Propagation Role (Bavaria at Dusk) | 5/8λ Topo 3 (Tab 7) | 0.28λ Ser-C (Tab 6) | **5/8λ Advantage ($\Delta$)** |
+| --- | --- | --- | --- | --- |
+| **3° – 8°** | **DX Path (NC & Osaka 2–4 hop)** | −11.5 to −5.3 dBi | −14.7 to −7.8 dBi | **+2.6 to +3.1 dB** *(signal boost)* |
+| **10° – 12°** | **DX Path (High F2 / 3–4 hop)** | −4.3 to −3.9 dBi | −6.5 to −5.6 dBi | **+1.7 to +2.2 dB** *(signal boost)* |
+| **25° – 40°** | **European Single-Hop QRM** *(500–1,500 km)* | **−16.1 to −8.4 dBi** | −3.7 to −3.1 dBi | **−5.3 to −13.0 dB** *(QRM null!)* |
+| **60°** | High-angle sky *(escapes F2 at 14–28 MHz dusk)* | −4.3 dBi | −7.5 dBi | +3.2 dB *(harmless: $f > f_oF_2$)* |
+
+At dusk, the **5/8λ** does not merely amplify North America and Japan by **+2.5 to +3.1 dB**—it simultaneously carves a **5 to 13 dB elevation null** across **25°–40°**, suppressing strong single-hop European stations from Italy, France, Poland, and the UK. On receiving, that produces an **8 to 15 dB Signal-to-Interference Ratio (SIR)** improvement purely from vertical current distribution.
+
+#### C. Front-End Selectivity & Dynamic Range (`−81 to −99 dB` AM Rejection)
+
+On an unobstructed 1,000 m mountain peak, the antenna has line-of-sight over tens of kilometers to valley broadcast transmitters, power-line noise, and solar-inverter hash. Even though those signals sit megahertz away from the tuned frequency, strong out-of-band energy reaching the receiver front end causes three real failures:
+
+1. **Third-Order Intermodulation (IMD3 / IIP3):** Two strong out-of-band carriers mix in the front-end LNA or diode switches to create phantom noise floors right inside the 17m/20m passband.
+2. **Blocking / AGC Desensitization:** Huge low-frequency voltage swings compress the front-end amplifier and reduce weak-signal gain.
+3. **ADC Clipping (Direct-Sampling SDRs):** Modern SDRs sample the entire HF spectrum at once; a single strong AM or low-band blocker consumes bits of Spurious-Free Dynamic Range (SFDR) or triggers hard ADC overflow.
+
+In **Tab 6**, the single series capacitor acts as a gentle 1st-order high-pass filter (`−40 to −46 dB` at 1 MHz). In **Tab 7**, adding the grounded shunt inductor converts the feedpoint into a **2nd-order high-pass preselector** (`−81 to −99 dB` at 1 MHz)—stripping away **40 to 53 dB more out-of-band blocker power** at the antenna terminals before it ever reaches the coax or the first transistor, at almost zero passband insertion loss ($\sim 0.11\text{ dB}$).
+
+---
+
+### 3. Bridge to Modern RF Engineering:
+
+| SOTA Trade-Off (Tabs 6 vs. 7) | Exact Equivalent in Modern Microwave / mmWave Systems | Core Engineering Takeaway |
+| There is no universal "best" antenna—**Tab 6** wins when mast height/wind/pack-weight is the hard constraint; **Tab 7** (and Tab 2: 17m 5/8λ wins when link margin, pileup penetration, and blocker immunity are the mission-critical constraints. |
+
 ```python
 import math, cmath
 import numpy as np
@@ -112,64 +173,5 @@ Osaka, Japan (9,295 km):
 
 ```
 
-**+3.25 dB of passive antenna gain** does not act like turning up a volume knob by one notch. On a dusk SOTA summit trying to reach North Carolina or Osaka, it transforms the **transmitter power budget**, the **spatial signal-to-interference ratio (SIR)**, and the **receiver front-end dynamic range** simultaneously.
-
----
-
-### 1. Transmitter Reality at Dusk: The 2.1× Power & Threshold Effect
-
-Because decibels are logarithmic, **+3.25 dB** is a **`2.11×` linear power multiplier**:
-
-* **80 W SSB** into the **5/8λ (Tab 7)** puts the exact same DX signal into the ionosphere as **~169 W** into the stretched 1/4λ (Tab 6).
-* **20 W digital** into the **5/8λ** matches **~42 W** into the stretched 1/4λ.
-* Conversely, to equal an **80 W** stretched 1/4λ station, the **5/8λ** requires only **38 W**—cutting summit battery consumption and PA heat generation in half.
-
-**Why dusk / post-sundown magnifies this on SSB:**
-On SSB voice, the transition between *"heard a voice in the static, no copy"* and *"solid 55–57 armchair QSO"* spans only about **6–8 dB** of SNR. As the F2 layer thins near Alpine dusk (15:30–17:00 CET toward North Carolina at **7,177 km**) or opens at grey-line (07:30–09:00 CET toward Osaka at **9,295 km**), multi-hop F2 signals arrive right on that cliff at **3° to 9° elevation**:
-
-* **North Carolina (7,177 km):** 2-hop grazing ~**1°–4°**, 3-hop F2 ~**8.4°**.
-* **Osaka, Japan (9,295 km):** 3-hop F2 ~**3.7°**, 4-hop F2 ~**8.9°**.
-
-At those exact low angles over real alpine rock ($\varepsilon_r = 5, \sigma = 0.001\text{ S/m}$), the 5/8λ beats the stretched 1/4λ by **+2.2 to +3.1 dB** (rising toward the full **+3.25 dB** when aided by a downhill slope)—and by **reciprocity**, it delivers that advantage on *both* TX and RX. That combined two-way margin is routinely the difference between making a reliable **80 W SSB** contact versus being stuck on FT8/JS8.
-
----
-
-### 2. Receiver Reality:
-
-#### A. Sensitivity vs. External Noise Floor (Why Gain ≠ Lower Noise Figure on HF)
-
-At 14–21 MHz, external atmospheric and galactic noise ($T_{\text{ant}}$) is typically **10–20 dB hotter** than a modern transceiver's internal thermal noise floor ($T_{\text{rx}}$). If background noise arrived equally from all directions, adding passive antenna gain would boost signal and noise equally.
-
-* *Exception:* On a quiet alpine summit **after sundown on 12m and 10m**, atmospheric noise collapses toward the transceiver's internal thermal floor—here, the 5/8λ's extra **+3.25 dB** aperture *does* directly improve raw thermal SNR, just like a bigger satellite dish.
-
-#### B. Spatial Selectivity (Passive Vertical Beamforming Against European QRM)
-
-During evaluation of the real-rock elevation patterns on **20m 5/8λ (Tab 7)** versus **20m 0.28λ (Tab 6)** a spatial-filtering bonus, that never shows up in a single dBi number, got revealed (I'll post NanoVNA and Smith Charts later):
-
-| Elevation Angle | Propagation Role (Bavaria at Dusk) | 5/8λ Topo 3 (Tab 7) | 0.28λ Ser-C (Tab 6) | **5/8λ Advantage ($\Delta$)** |
-| --- | --- | --- | --- | --- |
-| **3° – 8°** | **DX Path (NC & Osaka 2–4 hop)** | −11.5 to −5.3 dBi | −14.7 to −7.8 dBi | **+2.6 to +3.1 dB** *(signal boost)* |
-| **10° – 12°** | **DX Path (High F2 / 3–4 hop)** | −4.3 to −3.9 dBi | −6.5 to −5.6 dBi | **+1.7 to +2.2 dB** *(signal boost)* |
-| **25° – 40°** | **European Single-Hop QRM** *(500–1,500 km)* | **−16.1 to −8.4 dBi** | −3.7 to −3.1 dBi | **−5.3 to −13.0 dB** *(QRM null!)* |
-| **60°** | High-angle sky *(escapes F2 at 14–28 MHz dusk)* | −4.3 dBi | −7.5 dBi | +3.2 dB *(harmless: $f > f_oF_2$)* |
-
-At dusk, the **5/8λ** does not merely amplify North America and Japan by **+2.5 to +3.1 dB**—it simultaneously carves a **5 to 13 dB elevation null** across **25°–40°**, suppressing strong single-hop European stations from Italy, France, Poland, and the UK. On receiving, that produces an **8 to 15 dB Signal-to-Interference Ratio (SIR)** improvement purely from vertical current distribution.
-
-#### C. Front-End Selectivity & Dynamic Range (`−81 to −99 dB` AM Rejection)
-
-On an unobstructed 1,000 m mountain peak, the antenna has line-of-sight over tens of kilometers to valley broadcast transmitters, power-line noise, and solar-inverter hash. Even though those signals sit megahertz away from the tuned frequency, strong out-of-band energy reaching the receiver front end causes three real failures:
-
-1. **Third-Order Intermodulation (IMD3 / IIP3):** Two strong out-of-band carriers mix in the front-end LNA or diode switches to create phantom noise floors right inside the 17m/20m passband.
-2. **Blocking / AGC Desensitization:** Huge low-frequency voltage swings compress the front-end amplifier and reduce weak-signal gain.
-3. **ADC Clipping (Direct-Sampling SDRs):** Modern SDRs sample the entire HF spectrum at once; a single strong AM or low-band blocker consumes bits of Spurious-Free Dynamic Range (SFDR) or triggers hard ADC overflow.
-
-In **Tab 6**, the single series capacitor acts as a gentle 1st-order high-pass filter (`−40 to −46 dB` at 1 MHz). In **Tab 7**, adding the grounded shunt inductor converts the feedpoint into a **2nd-order high-pass preselector** (`−81 to −99 dB` at 1 MHz)—stripping away **40 to 53 dB more out-of-band blocker power** at the antenna terminals before it ever reaches the coax or the first transistor, at almost zero passband insertion loss ($\sim 0.11\text{ dB}$).
-
----
-
-### 3. Bridge to Modern RF Engineering:
-
-| SOTA Trade-Off (Tabs 6 vs. 7) | Exact Equivalent in Modern Microwave / mmWave Systems | Core Engineering Takeaway |
-| There is no universal "best" antenna—**Tab 6** wins when mast height/wind/pack-weight is the hard constraint; **Tab 7** (and Tab 2: 17m 5/8λ wins when link margin, pileup penetration, and blocker immunity are the mission-critical constraints. |
 
 This testing provided a practical physical intuition for **link budgets, reciprocity, spatial filtering, and front-end linearity**.
