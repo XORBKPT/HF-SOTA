@@ -171,9 +171,8 @@ Osaka, Japan (9,295 km):
 
 
 ```
-
-
-This testing provided practical intuition for **link budgets, reciprocity, spatial filtering, and front-end linearity**.
+Testing on SSB and Digital will show **link budgets, reciprocity, spatial filtering, and front-end linearity**, (NanoVNA sweep and Smith Charts to follow).
+***CAUTION*** when building any of the above antennas, high voltages are present on Tx on the hot signal paths!!!
 
 
 
