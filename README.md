@@ -1,6 +1,5 @@
 ---
 ## https://xorbkpt.github.io/HF-SOTA/
-*click link for results and optimal antenna circuit configurations*.
 ---
 ## Vertical HF Radio Antennas
 ---
@@ -8,6 +7,7 @@
 
 On a dusk EU SOTA summit reaching North Carolina or Osaka, the **transmitter power budget**, the **spatial signal-to-interference ratio (SIR)**, and the **receiver front-end dynamic range** are better.
 
+*click link for results and optimal antenna circuit configurations*
 ---
 ### 1. Transmitter Reality at Dusk: The 2.1× Power & Threshold Effect
 
